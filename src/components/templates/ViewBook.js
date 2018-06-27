@@ -1,8 +1,28 @@
 import React from "react";
 import Menus from "../Menus";
+import { getSingleBookData } from "../../utils/api";
 
 export default class ViewBook extends React.Component {
+  constructor() {
+    super();
+    this.state = { book: [] };
+  }
+
+  getOneBook(id) {
+    getSingleBookData(id).then(book => {
+      this.setState({ book });
+    });
+  }
+
+  componentDidMount() {
+    // console.log(this.props.match.params.id)
+    var bookID = this.props.match.params.id;
+    this.getOneBook(bookID);
+  }
+
   render() {
+    const { book } = this.state;
+
     return (
       <div>
         <Menus />
@@ -12,39 +32,29 @@ export default class ViewBook extends React.Component {
           <div className="card">
             <div className="card-body">
               <div className="row">
-                {/* <div className="col-md-6">
-                  <div className="">
-                    <img
-                      className="img-thumbnail"
-                      src="static/images/books/book.png"
-                      alt="Card image"
-                    />
-                  </div>
-                </div> */}
                 <div className="col-md-12">
-                  <h2 className="card-title">Book Title</h2>
-                  <span className="author">by <span className="text-muted">Author Name</span></span>
+                  <h2 className="card-title">{book.title}</h2>
+                  <span className="author">
+                    by <span className="text-muted">{book.author}</span>
+                  </span>
                   <br />
                   <table className="table">
                     <tbody>
                       <tr>
                         <th scope="row">Status</th>
                         <td>
-                          <strong className="text-success">Available</strong>
-                          {/* TOO BE USED IF BOOK IS AVAILABLE */}
-                          {/* <strong className="Text-warning">Not Available</strong> */}
+                          {book.availability ? (
+                            <strong className="text-success">Available</strong>
+                          ) : (
+                            <strong className="text-warning">
+                              Not Available
+                            </strong>
+                          )}
                         </td>
                       </tr>
                       <tr>
                         <th scope="row">Description</th>
-                        <td>
-                          With supporting text below as a natural lead-in to
-                          additional content.With supporting text below as a
-                          natural lead-in to additional content.With supporting
-                          text below as a natural lead-in to additional content.
-                          With supporting text below as a natural lead-in to
-                          additional content.
-                        </td>
+                        <td>{book.description}</td>
                       </tr>
                     </tbody>
                   </table>

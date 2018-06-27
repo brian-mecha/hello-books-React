@@ -8,14 +8,14 @@ class Books extends React.Component {
     this.state = { books: [] };
   }
 
-  getFoodJokes() {
+  getAllBooks() {
     getBooksData().then(books => {
       this.setState({ books });
     });
   }
 
   componentDidMount() {
-    this.getFoodJokes();
+    this.getAllBooks();
   }
 
   render() {
@@ -46,11 +46,11 @@ class Books extends React.Component {
                   <p className="card-text">
                     {book.description}
                   </p>
-                  <Link to="book/view" className="btn btn-warning card-link">
+                  <Link to={"book/view/"+book.book_id} className="btn btn-warning card-link">
                     Details <i className="fa fa-angle-right" />
                   </Link>
                   <div className="float-right">
-                    <Link to="book/edit" className="btn btn-info card-link">
+                    <Link to="book/edit/{book.book_id}" className="btn btn-info card-link">
                       {" "}
                       <i className="fa fa-edit" /> Edit
                     </Link>
@@ -74,11 +74,11 @@ class Books extends React.Component {
                   With supporting text below as a natural lead-in to additional
                   content.
                 </p>
-                <Link to="book/view" className="btn btn-warning card-link">
+                <Link to="book/view/100" className="btn btn-warning card-link">
                   Details <i className="fa fa-angle-right" />
                 </Link>
                 <div className="float-right">
-                  <Link to="book/edit" className="btn btn-info card-link">
+                  <Link to="book/edit/100" className="btn btn-info card-link">
                     {" "}
                     <i className="fa fa-edit" /> Edit
                   </Link>

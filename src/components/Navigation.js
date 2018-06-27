@@ -22,8 +22,8 @@ class Navigation extends React.Component {
             <Route path="/history" component={BorrowingHistory} />
             <Route path="/register" component={Register} />
             <Route path="/book/add" component={AddBook}/>
-            <Route path="/book/edit" component={EditBook}/>
-            <Route path="/book/view" component={ViewBook}/>
+            <Route path="/book/edit/:id" component={EditBook}/>
+            <Route path="/book/view/:id" component={ViewBook}/>
           </Fragment>
         </Router>
       </div>
