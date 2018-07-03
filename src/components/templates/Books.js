@@ -1,6 +1,6 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { getBooksData } from "../../utils/api";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { getBooksData } from '../../utils/api';
 
 class Books extends React.Component {
   constructor() {
@@ -19,7 +19,7 @@ class Books extends React.Component {
   }
 
   render() {
-    const { books }  = this.state;
+    const { books } = this.state;
 
     return (
       <div className="container">
@@ -43,14 +43,18 @@ class Books extends React.Component {
                 <div className="col-md-12">
                   <h5 className="card-title">{book.title}</h5>
                   <span className="author">by {book.author}</span>
-                  <p className="card-text">
-                    {book.description}
-                  </p>
-                  <Link to={"book/view/"+book.book_id} className="btn btn-warning card-link">
+                  <p className="card-text">{book.description}</p>
+                  <Link
+                    to={"book/view/" + book.book_id}
+                    className="btn btn-warning card-link"
+                  >
                     Details <i className="fa fa-angle-right" />
                   </Link>
                   <div className="float-right">
-                    <Link to="book/edit/{book.book_id}" className="btn btn-info card-link">
+                    <Link
+                      to={"book/edit/" + book.book_id}
+                      className="btn btn-info card-link"
+                    >
                       {" "}
                       <i className="fa fa-edit" /> Edit
                     </Link>

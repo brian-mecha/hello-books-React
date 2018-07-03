@@ -1,6 +1,32 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import { RegisterUser } from "../utils/api";
 
 class Register extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      username: "",
+      email: "",
+      password: ""
+    };
+  }
+  handleChange = e => {
+    let state = {};
+    state[e.target.name] = e.target.value;
+    this.setState(state);
+  };
+  register = e => {
+    e.preventDefault();
+    RegisterUser(this.state)
+      .then(rep => {
+        this.setState({ error: false, message: rep.message });
+      })
+      .catch(err => {
+        this.setState({ error: true, message: err.message });
+      });
+    // return false;
+  };
   render() {
     return (
       <section className="h-100">
@@ -9,13 +35,26 @@ class Register extends React.Component {
             <div className="card-wrapper">
               <br />
               <br />
-              <a href="/">
+              <Link to="/">
                 <h2 className="text-center text-black mb-4">Hello-Books</h2>
-              </a>
+              </Link>
               <div className="card fat">
                 <div className="card-body">
                   <h4 className="card-title text-center">Register</h4>
-                  <form method="POST">
+                  {this.state.message && (
+                    <div className="alert alert-danger alert-dismissible fade show" role="alert">
+                      <button
+                        type="button"
+                        className="close"
+                        data-dismiss="alert"
+                        aria-label="Close"
+                      >
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                      {this.state.message}
+                    </div>
+                  )}
+                  <form method="POST" onSubmit={this.register}>
                     <div className="form-group">
                       <label htmlFor="name">Username</label>
                       <input
@@ -23,6 +62,8 @@ class Register extends React.Component {
                         type="text"
                         className="form-control"
                         name="username"
+                        onChange={this.handleChange}
+                        value={this.state.username}
                         required
                         autoFocus
                       />
@@ -35,6 +76,8 @@ class Register extends React.Component {
                         type="email"
                         className="form-control"
                         name="email"
+                        onChange={this.handleChange}
+                        value={this.state.email}
                         required
                       />
                     </div>
@@ -46,17 +89,19 @@ class Register extends React.Component {
                         type="password"
                         className="form-control"
                         name="password"
+                        onChange={this.handleChange}
+                        value={this.state.password}
                         required
                       />
                     </div>
 
                     <div className="form-group no-margin">
-                      <button type="submit" className="btn btn-success">
+                      <button type="submit" className="btn btn-info">
                         Register
                       </button>
                     </div>
                     <div className="margin-top20 text-center">
-                      Already have an account? <a href="/login">Login</a>
+                      Already have an account? <Link to="/login">Login</Link>
                     </div>
                   </form>
                 </div>

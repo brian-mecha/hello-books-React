@@ -1,6 +1,6 @@
-import React from "react";
-import Menus from "../Menus";
-import { getSingleBookData } from "../../utils/api";
+import React from 'react';
+import Menus from '../Menus';
+import { getSingleBookData } from '../../utils/api';
 
 export default class ViewBook extends React.Component {
   constructor() {
@@ -16,7 +16,7 @@ export default class ViewBook extends React.Component {
 
   componentDidMount() {
     // console.log(this.props.match.params.id)
-    var bookID = this.props.match.params.id;
+    const bookID = this.props.match.params.id;
     this.getOneBook(bookID);
   }
 

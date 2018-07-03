@@ -1,8 +1,25 @@
 import React from "react";
 import Menus from "./Menus";
+import { borrowingHistory } from "../utils/api";
 
 class BorrowingHistory extends React.Component {
+  constructor() {
+    super();
+    this.state = { history: [] };
+  }
+
+  getBorrowingHistory() {
+    borrowingHistory().then(history => {
+      this.setState({ history });
+    });
+  }
+
+  componentDidMount() {
+    this.getBorrowingHistory();
+  }
+
   render() {
+    const { history } = this.state;
     return (
       <div>
         <Menus />
@@ -28,34 +45,19 @@ class BorrowingHistory extends React.Component {
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <th>GIT ESSENTIALS</th>
-                      <td>Katherine Njine</td>
-                      <td>23-06-2018</td>
-                      <td>30-06-2018</td>
-                      <td className="text-warning">UN-RETURNED</td>
-                    </tr>
-                    <tr>
-                      <th>GIT ESSENTIALS</th>
-                      <td>Katherine Njine</td>
-                      <td>23-06-2018</td>
-                      <td>30-06-2018</td>
-                      <td>RETURNED</td>
-                    </tr>
-                    <tr>
-                      <th>GIT ESSENTIALS</th>
-                      <td>Katherine Njine</td>
-                      <td>23-06-2018</td>
-                      <td>30-06-2018</td>
-                      <td>RETURNED</td>
-                    </tr>
-                    <tr>
-                      <th>GIT ESSENTIALS</th>
-                      <td>Katherine Njine</td>
-                      <td>23-06-2018</td>
-                      <td>30-06-2018</td>
-                      <td className="text-warning">UN-RETURNED</td>
-                    </tr>
+                    {history.map((hist, index) => (
+                      <tr key={index}>
+                        <th>{hist.book_title}</th>
+                        <td>{hist.book_author}</td>
+                        <td>{hist.date_borrowed}</td>
+                        <td>{hist.due_date}</td>
+                        {hist.returned === false ? (
+                          <td className="text-warning">UN-RETURNED</td>
+                        ) : (
+                          <td className="text-success">RETURNED</td>
+                        )}
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
               </div>

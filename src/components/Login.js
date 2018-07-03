@@ -1,6 +1,38 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import { LoginUser } from "../utils/api";
 
 class Login extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      email: "",
+      password: ""
+    };
+  }
+  componentDidMount(){
+    console.log(localStorage.getItem('access_token'))
+  }
+  handleChange = e => {
+    let state = {};
+    state[e.target.name] = e.target.value;
+    this.setState(state);
+  };
+  login = e => {
+    e.preventDefault();
+    LoginUser(this.state)
+      .then(rep => {
+        this.setState({ error: false, message: rep.message });
+        // console.log(rep);
+        localStorage.setItem('access_token',rep.access_token);
+      })
+      .catch(err => {
+        this.setState({ error: true, message: err.message });
+      });
+    // return false;
+  };
+
+
   render() {
     return (
       <section className="h-100">
@@ -9,14 +41,28 @@ class Login extends React.Component {
             <div className="card-wrapper">
               <br />
               <br />
-              <a href="/">
+              <Link to="/">
                 <h2 className="text-center text-black mb-4">Hello-Books</h2>
-              </a>
+              </Link>
               <div className="card fat">
                 <div className="card-body">
                   <h4 className="card-title text-center">Login</h4>
 
-                  <form action="#" method="GET">
+                  {this.state.message && (
+                    <div className="alert alert-danger alert-dismissible fade show" role="alert">
+                      <button
+                        type="button"
+                        className="close"
+                        data-dismiss="alert"
+                        aria-label="Close"
+                      >
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                      {this.state.message}
+                    </div>
+                  )}
+                  
+                  <form method="GET" onSubmit={this.login}>
                     <div className="form-group">
                       <label htmlFor="email">E-Mail Address</label>
                       <input
@@ -24,9 +70,9 @@ class Login extends React.Component {
                         type="email"
                         className="form-control"
                         name="email"
-                        value=""
+                        onChange={this.handleChange}
+                        value={this.state.email}
                         required
-                        autoFocus
                       />
                     </div>
 
@@ -37,15 +83,17 @@ class Login extends React.Component {
                         type="password"
                         className="form-control"
                         name="password"
+                        onChange={this.handleChange}
+                        value={this.state.password}
                         required
                       />
                     </div>
 
-                    <div className="form-group">
+                    {/* <div className="form-group">
                       <label>
                         <input type="checkbox" name="remember_me" /> Remember Me
                       </label>
-                    </div>
+                    </div> */}
 
                     <div className="form-group no-margin">
                       <button type="submit" className="btn btn-success">
@@ -54,7 +102,7 @@ class Login extends React.Component {
                     </div>
 
                     <div className="margin-top20 text-center">
-                      Don't have an account? <a href="/register">Register</a>
+                      Don't have an account? <Link to="/register">Register</Link>
                     </div>
                   </form>
                 </div>
