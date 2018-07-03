@@ -3,7 +3,7 @@ import axios from "axios";
 // const BASE_URL = 'https://hello-booksc3.herokuapp.com/api/v2';
 const BASE_URL = "http://127.0.0.1:5000/api/v2";
 
-export { getBooksData, getSingleBookData, LoginUser, RegisterUser, addBook, borrowingHistory };
+export { getBooksData, getSingleBookData, LoginUser, RegisterUser, addBook, borrowingHistory, unreturnedBooks };
 
 function getBooksData() {
   const url = `${BASE_URL}/books`;
@@ -66,6 +66,19 @@ function addBook(bookData) {
 
 function borrowingHistory() {
   const url = `${BASE_URL}/users/books`;
+  return axios
+    .get(url, {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: "Bearer " + localStorage.getItem("access_token")
+      }
+    })
+    .then(response => response.data);
+}
+
+function unreturnedBooks() {
+  const url = `${BASE_URL}/users/books?returned=false`;
   return axios
     .get(url, {
       headers: {

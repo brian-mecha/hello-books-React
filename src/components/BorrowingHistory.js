@@ -58,6 +58,13 @@ class BorrowingHistory extends React.Component {
                         )}
                       </tr>
                     ))}
+                    <tr>
+                      <th>GIT ESSENTIALS</th>
+                      <td>Katherine Njine</td>
+                      <td>23-06-2018</td>
+                      <td>30-06-2018</td>
+                      <td>RETURNED</td>
+                    </tr>
                   </tbody>
                 </table>
               </div>

@@ -1,9 +1,27 @@
 import React from "react";
 import Menus from "../Menus";
 import { Link } from "react-router-dom";
+import { unreturnedBooks } from "../../utils/api";
 
 export default class Profile extends React.Component {
+  constructor() {
+    super();
+    this.state = { unreturned: [] };
+  }
+
+  getUnreturnedBooks() {
+    unreturnedBooks().then(unreturned => {
+      this.setState({ unreturned });
+    });
+  }
+
+  componentDidMount() {
+    this.getUnreturnedBooks();
+  }
+
   render() {
+    const { unreturned } = this.state;
+
     return (
       <div>
         <Menus />
@@ -62,39 +80,19 @@ export default class Profile extends React.Component {
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <th>GIT ESSENTIALS</th>
-                      <td>Katherine Njine</td>
-                      <td>23-06-2018</td>
-                      <td>30-06-2018</td>
-                      <td>
-                        <a href="" className="btn btn-sm btn-warning">
-                          Return <i className="icon-angle-right" />
-                        </a>
-                      </td>
-                    </tr>
-                    <tr>
-                      <th>GIT ESSENTIALS</th>
-                      <td>Katherine Njine</td>
-                      <td>23-06-2018</td>
-                      <td>30-06-2018</td>
-                      <td>
-                        <a href="" className="btn btn-sm btn-warning">
-                          Return <i className="icon-angle-right" />
-                        </a>
-                      </td>
-                    </tr>
-                    <tr>
-                      <th>GIT ESSENTIALS</th>
-                      <td>Katherine Njine</td>
-                      <td>23-06-2018</td>
-                      <td>30-06-2018</td>
-                      <td>
-                        <a href="" className="btn btn-sm btn-warning">
-                          Return <i className="icon-angle-right" />
-                        </a>
-                      </td>
-                    </tr>
+                    {unreturned.map((data, index) => (
+                      <tr key={index}>
+                        <th>{data.book_title}</th>
+                        <td>{data.book_author}</td>
+                        <td>{data.date_borrowed}</td>
+                        <td>{data.due_date}</td>
+                        <td>
+                          <a href="" className="btn btn-sm btn-warning">
+                            Return <i className="icon-angle-right" />
+                          </a>
+                        </td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
               </div>
