@@ -9,7 +9,7 @@ export default class AddBook extends React.Component {
       title: "",
       description: "",
       author: "",
-      error: false,
+      error: false
     };
   }
   handleChange = e => {
@@ -25,7 +25,6 @@ export default class AddBook extends React.Component {
         this.setState({ error: false, message: rep.message });
       })
       .catch(err => {
-        console.log(">>>>>>>>>>>>>>>>>>>>>");
         console.log(this.state);
         this.setState({ error: true, message: err.message });
       });
@@ -48,7 +47,11 @@ export default class AddBook extends React.Component {
               <form method="post" onSubmit={this.add}>
                 {this.state.message && (
                   <div
-                    className={this.state.error?"alert alert-danger alert-dismissible fade show":"alert alert-success alert-dismissible fade show"}
+                    className={
+                      this.state.error
+                        ? "alert alert-success alert-dismissible fade show"
+                        : "alert alert-danger alert-dismissible fade show"
+                    }
                     role="alert"
                   >
                     <button

@@ -10,11 +10,14 @@ import EditBook from "./templates/EditBook";
 import ViewBook from "./templates/ViewBook";
 
 class Navigation extends React.Component {
+  
   // Protected routes
   requireAuth(replace) {
     if(!localStorage.getItem('token'))
       // pseudocode - SYNCHRONOUS function (cannot be async without extra callback parameter to this function)
-      replace("/login");
+      replace({
+        pathname: '/login'
+      })
   }
 
   // Unprotected routes

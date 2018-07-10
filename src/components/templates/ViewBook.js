@@ -1,6 +1,7 @@
-import React from 'react';
-import Menus from '../Menus';
-import { getSingleBookData } from '../../utils/api';
+import React from "react";
+import { Link } from "react-router-dom";
+import Menus from "../Menus";
+import { getSingleBookData, borrowBook, returnBook } from "../../utils/api";
 
 export default class ViewBook extends React.Component {
   constructor() {
@@ -19,6 +20,28 @@ export default class ViewBook extends React.Component {
     const bookID = this.props.match.params.id;
     this.getOneBook(bookID);
   }
+
+  borrow = id => {
+    borrowBook(id)
+      .then(rep => {
+        this.setState({ error: false, message: rep.message });
+        this.props.history.push("/");
+      })
+      .catch(err => {
+        this.setState({ error: true, message: err.message });
+      });
+  };
+
+  return = id => {
+    returnBook(id)
+      .then(rep => {
+        this.setState({ error: false, message: rep.message });
+        this.props.history.push("/");
+      })
+      .catch(err => {
+        this.setState({ error: true, message: err.message });
+      });
+  };
 
   render() {
     const { book } = this.state;
@@ -58,9 +81,23 @@ export default class ViewBook extends React.Component {
                       </tr>
                     </tbody>
                   </table>
-                  <a href="/" className="btn btn-warning">
-                    <i className="icon-ok-sign" /> Borrow
-                  </a>
+                  {book.availability ? (
+                    <Link
+                      to={"/users/book/" + book.book_id}
+                      className="btn btn-warning card-link"
+                      onClick={() => this.borrow(book.book_id)}
+                    >
+                      Borrow book <i className="fa fa-chevron-right" />
+                    </Link>
+                  ) : (
+                    <Link
+                      to={"/users/book/" + book.book_id}
+                      className="btn btn-info card-link"
+                      onClick={() => this.return(book.book_id)}
+                    >
+                      <i className="fa fa-chevron-left" /> Return book
+                    </Link>
+                  )}
                 </div>
               </div>
             </div>

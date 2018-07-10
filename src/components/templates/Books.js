@@ -1,10 +1,10 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { getBooksData } from '../../utils/api';
+import React from "react";
+import { Link } from "react-router-dom";
+import { getBooksData, deleteBook } from "../../utils/api";
 
 class Books extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = { books: [] };
   }
 
@@ -17,6 +17,18 @@ class Books extends React.Component {
   componentDidMount() {
     this.getAllBooks();
   }
+
+  delete = id => {
+    deleteBook(id)
+      .then(rep => {
+        this.setState({ error: false, message: rep.message });
+        this.props.history.push("/");
+      })
+      .catch(err => {
+        this.setState({ error: true, message: err.message });
+      });
+  };
+  
 
   render() {
     const { books } = this.state;
@@ -35,6 +47,26 @@ class Books extends React.Component {
 
         <hr />
         <br />
+        {this.state.message && (
+          <div
+            className={
+              this.state.error
+                ? "alert alert-danger alert-dismissible fade show"
+                : "alert alert-success alert-dismissible fade show"
+            }
+            role="alert"
+          >
+            <button
+              type="button"
+              className="close"
+              data-dismiss="alert"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+            {this.state.message}
+          </div>
+        )}
 
         {books.map((book, index) => (
           <div className="card" key={index}>
@@ -58,9 +90,17 @@ class Books extends React.Component {
                       {" "}
                       <i className="fa fa-edit" /> Edit
                     </Link>
-                    <a href="" className="btn btn-danger card-link">
+                    <Link
+                      to={"book/" + book.book_id}
+                      className="btn btn-danger card-link"
+                      onClick={() => this.delete(book.book_id)}
+                    >
+                      {" "}
                       <i className="fa fa-trash" /> Delete
-                    </a>
+                    </Link>
+                    {/* <a href={"book/" + book.book_id} className="btn btn-danger card-link" onClick={() => this.delete(book.book_id)}>
+                      <i className="fa fa-trash" /> Delete
+                    </a> */}
                   </div>
                 </div>
               </div>
@@ -68,7 +108,7 @@ class Books extends React.Component {
           </div>
         ))}
 
-        <div className="card">
+        {/* <div className="card">
           <div className="card-body">
             <div className="row">
               <div className="col-md-12">
@@ -93,7 +133,7 @@ class Books extends React.Component {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
 
         <nav aria-label="...">
           <ul className="pagination">

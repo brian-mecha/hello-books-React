@@ -22,14 +22,17 @@ class Login extends React.Component {
     e.preventDefault();
     LoginUser(this.state)
       .then(rep => {
-        this.setState({ error: false, message: rep.message });
-        // console.log(rep);
-        localStorage.setItem('access_token',rep.access_token);
+        if(rep.status==='success'){
+          this.setState({ error: false, message: rep.data.message });
+          localStorage.setItem('access_token',rep.access_token);
+        }
+        else{
+          this.setState({ error: true, message: rep.data.message });
+        }
       })
       .catch(err => {
-        this.setState({ error: true, message: err.message });
+        this.setState({ error: true, message: err.data.message });
       });
-    // return false;
   };
 
 
@@ -49,7 +52,11 @@ class Login extends React.Component {
                   <h4 className="card-title text-center">Login</h4>
 
                   {this.state.message && (
-                    <div className="alert alert-danger alert-dismissible fade show" role="alert">
+                    <div className={
+                      this.state.error
+                        ? "alert alert-danger alert-dismissible fade show"
+                        : "alert alert-success alert-dismissible fade show"
+                    } role="alert">
                       <button
                         type="button"
                         className="close"

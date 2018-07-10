@@ -26,31 +26,6 @@ export default class Profile extends React.Component {
       <div>
         <Menus />
         <div className="container">
-          <div className="block-header">
-            <h2 className="mt-5">Profile</h2>
-          </div>
-          <hr />
-          <br />
-
-          <div className="card">
-            <div className="card-body">
-              <div className="table-responsive">
-                <table className="table">
-                  <tbody>
-                    <tr>
-                      <th scope="row">Username</th>
-                      <td>Brian Mecha</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">Email</th>
-                      <td>brian@example.com</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-
           <div className="col-lg-12 text-left">
             <div className="btn-toolbar float-right">
               <Link to="/history" className="btn btn-warning card-link">
