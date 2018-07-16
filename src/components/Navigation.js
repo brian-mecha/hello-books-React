@@ -8,37 +8,22 @@ import Profile from "./templates/Profile";
 import AddBook from "./templates/AddBook";
 import EditBook from "./templates/EditBook";
 import ViewBook from "./templates/ViewBook";
+import { PrivateRoute } from "../utils/auth";
 
 class Navigation extends React.Component {
   
-  // Protected routes
-  requireAuth(replace) {
-    if(!localStorage.getItem('token'))
-      // pseudocode - SYNCHRONOUS function (cannot be async without extra callback parameter to this function)
-      replace({
-        pathname: '/login'
-      })
-  }
-
-  // Unprotected routes
-  verifyAuth(replace) {
-    if(localStorage.getItem('token'))
-      // pseudocode - SYNCHRONOUS function (cannot be async without extra callback parameter to this function)
-      replace("/");
-  }
-
   render() {
     return (
       <div>
         <Router>
           <Fragment>
             <Route exact path="/" component={Home} />
-            <Route path="/profile" component={Profile} />
+            <PrivateRoute path="/profile" component={Profile} />
             <Route path="/login" component={Login} />
-            <Route path="/history" component={BorrowingHistory} onEnter={this.requireAuth}/>
+            <PrivateRoute path="/history" component={BorrowingHistory} />
             <Route path="/register" component={Register} />
-            <Route path="/book/add" component={AddBook} />
-            <Route path="/book/edit/:id" component={EditBook} />
+            <PrivateRoute path="/book/add" component={AddBook} />
+            <PrivateRoute path="/book/edit/:id" component={EditBook} />
             <Route path="/book/view/:id" component={ViewBook} />
           </Fragment>
         </Router>

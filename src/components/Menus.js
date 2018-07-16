@@ -6,12 +6,10 @@ import {
   NavbarBrand,
   Nav,
   NavItem,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem
 } from "reactstrap";
 import { NavLink } from "react-router-dom";
+import { LogoutUser } from "../utils/api";
+import { Auth } from "../utils/auth";
 
 export default class Menus extends React.Component {
   constructor(props) {
@@ -27,6 +25,26 @@ export default class Menus extends React.Component {
       isOpen: !this.state.isOpen
     });
   }
+
+  logout = e => {
+    e.preventDefault();
+    LogoutUser(this.state)
+      .then(rep => {
+        if (rep.status === "success") {
+          this.setState({ error: false, message: rep.data.message });
+          localStorage.removeItem("access_token", rep.data.access_token);
+          Auth.signout();
+          console.log(this.state);
+        } else {
+          this.setState({ error: true, message: rep.data.message });
+          console.log(this.state);
+        }
+      })
+      .catch(err => {
+        this.setState({ error: true, message: err.data.message });
+      });
+  };
+
   render() {
     return (
       <div>
@@ -51,6 +69,15 @@ export default class Menus extends React.Component {
                 </NavLink>
               </NavItem>
               <NavItem>
+                <NavLink
+                  to="/logout"
+                  onClick={this.logout}
+                  className="nav-link"
+                >
+                  Logout
+                </NavLink>
+              </NavItem>
+              <NavItem>
                 <NavLink to="/login" className="nav-link">
                   Login
                 </NavLink>
@@ -60,17 +87,6 @@ export default class Menus extends React.Component {
                   Register
                 </NavLink>
               </NavItem>
-              <UncontrolledDropdown nav inNavbar>
-                <DropdownToggle nav caret>
-                  Username
-                </DropdownToggle>
-                <DropdownMenu right>
-                  <DropdownItem>Option 1</DropdownItem>
-                  <DropdownItem>Option 2</DropdownItem>
-                  <DropdownItem divider />
-                  <DropdownItem>Logout</DropdownItem>
-                </DropdownMenu>
-              </UncontrolledDropdown>
               <form className="form-inline my-2 my-lg-0">
                 <input
                   className="form-control mr-sm-2"

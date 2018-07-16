@@ -22,14 +22,13 @@ class Books extends React.Component {
     deleteBook(id)
       .then(rep => {
         this.setState({ error: false, message: rep.message });
-        this.props.history.push("/");
+        // this.props.history.push("/");
       })
       .catch(err => {
         this.setState({ error: true, message: err.message });
       });
   };
   
-
   render() {
     const { books } = this.state;
 
@@ -90,14 +89,14 @@ class Books extends React.Component {
                       {" "}
                       <i className="fa fa-edit" /> Edit
                     </Link>
-                    <Link
-                      to={"book/" + book.book_id}
+                    <button
+                      // to={"book/" + book.book_id}
                       className="btn btn-danger card-link"
                       onClick={() => this.delete(book.book_id)}
                     >
                       {" "}
                       <i className="fa fa-trash" /> Delete
-                    </Link>
+                    </button>
                     {/* <a href={"book/" + book.book_id} className="btn btn-danger card-link" onClick={() => this.delete(book.book_id)}>
                       <i className="fa fa-trash" /> Delete
                     </a> */}

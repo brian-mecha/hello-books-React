@@ -1,7 +1,7 @@
 import React from "react";
 import Menus from "../Menus";
 import { Link } from "react-router-dom";
-import { unreturnedBooks } from "../../utils/api";
+import { unreturnedBooks, returnBook } from "../../utils/api";
 
 export default class Profile extends React.Component {
   constructor() {
@@ -18,6 +18,17 @@ export default class Profile extends React.Component {
   componentDidMount() {
     this.getUnreturnedBooks();
   }
+
+  return = id => {
+    returnBook(id)
+      .then(rep => {
+        this.setState({ error: false, message: rep.message });
+        this.props.history.push("/");
+      })
+      .catch(err => {
+        this.setState({ error: true, message: err.message });
+      });
+  };
 
   render() {
     const { unreturned } = this.state;
@@ -62,9 +73,13 @@ export default class Profile extends React.Component {
                         <td>{data.date_borrowed}</td>
                         <td>{data.due_date}</td>
                         <td>
-                          <a href="" className="btn btn-sm btn-warning">
-                            Return <i className="icon-angle-right" />
-                          </a>
+                          <Link
+                            to={"/users/book/" + data.book_id}
+                            className="btn btn-warning card-link"
+                            onClick={() => this.return(data.book_id)}
+                          >
+                            Return book
+                          </Link>
                         </td>
                       </tr>
                     ))}

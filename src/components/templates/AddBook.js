@@ -21,12 +21,14 @@ export default class AddBook extends React.Component {
     e.preventDefault();
     addBook(this.state)
       .then(rep => {
-        console.log(this.state);
-        this.setState({ error: false, message: rep.message });
+        if (rep.status === "success") {
+          this.setState({ error: false, message: rep.data.message });
+        } else {
+          this.setState({ error: true, message: rep.data.message });
+        }
       })
       .catch(err => {
-        console.log(this.state);
-        this.setState({ error: true, message: err.message });
+        this.setState({ error: true, message: err.data.message });
       });
   };
 
@@ -45,12 +47,13 @@ export default class AddBook extends React.Component {
           <div className="card">
             <div className="card-body">
               <form method="post" onSubmit={this.add}>
+
                 {this.state.message && (
                   <div
                     className={
                       this.state.error
-                        ? "alert alert-success alert-dismissible fade show"
-                        : "alert alert-danger alert-dismissible fade show"
+                        ? "alert alert-danger alert-dismissible fade show"
+                        : "alert alert-success alert-dismissible fade show"
                     }
                     role="alert"
                   >
@@ -65,6 +68,7 @@ export default class AddBook extends React.Component {
                     {this.state.message}
                   </div>
                 )}
+
                 <div className="form-group row">
                   <label className="col-sm-2 col-form-label">Title</label>
                   <div className="col-sm-10">

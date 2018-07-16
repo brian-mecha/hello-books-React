@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { LoginUser } from "../utils/api";
+import { Auth } from "../utils/auth";
 
 class Login extends React.Component {
   constructor(props) {
@@ -11,7 +12,7 @@ class Login extends React.Component {
     };
   }
   componentDidMount(){
-    console.log(localStorage.getItem('access_token'))
+    // console.log(localStorage.getItem('access_token'))
   }
   handleChange = e => {
     let state = {};
@@ -24,7 +25,8 @@ class Login extends React.Component {
       .then(rep => {
         if(rep.status==='success'){
           this.setState({ error: false, message: rep.data.message });
-          localStorage.setItem('access_token',rep.access_token);
+          localStorage.setItem('access_token',rep.data.access_token);
+          Auth.authenticate()
         }
         else{
           this.setState({ error: true, message: rep.data.message });
