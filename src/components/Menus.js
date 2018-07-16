@@ -68,6 +68,8 @@ export default class Menus extends React.Component {
                   History
                 </NavLink>
               </NavItem>
+
+              {Auth.isAuthenticated ? (
               <NavItem>
                 <NavLink
                   to="/logout"
@@ -77,16 +79,22 @@ export default class Menus extends React.Component {
                   Logout
                 </NavLink>
               </NavItem>
+              ) : (
               <NavItem>
                 <NavLink to="/login" className="nav-link">
                   Login
                 </NavLink>
               </NavItem>
+              )}
+              
+              {Auth.isAuthenticated === false ? (
               <NavItem>
                 <NavLink to="/register" className="nav-link">
                   Register
                 </NavLink>
               </NavItem>
+              ):null}
+              
               <form className="form-inline my-2 my-lg-0">
                 <input
                   className="form-control mr-sm-2"

@@ -2,6 +2,10 @@ body {
   background-color: #eaeaea !important;
 }
 
+.header {
+  background-image: url(../src/header.jpeg);
+}
+
 .card {
   margin-bottom: 30px;
 }

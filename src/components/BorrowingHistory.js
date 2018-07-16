@@ -52,10 +52,10 @@ class BorrowingHistory extends React.Component {
                         <td>{hist.book_author}</td>
                         <td>{hist.date_borrowed}</td>
                         <td>{hist.due_date}</td>
-                        {hist.returned === true ? (
-                          <td>{this.returned_date}</td>
+                        {hist.returned ? (
+                          <td>{hist.returned_date}</td>
                         ) : (
-                          <td className="text-warning">UN-RETURNED</td>
+                          <td className="text-center">-</td>
                         )}
                         
                         {hist.returned === false ? (

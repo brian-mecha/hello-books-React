@@ -42,7 +42,7 @@ class Books extends React.Component {
               <i className="fa fa-plus" /> Add Book
             </Link>
           </div>
-        ):(<p/>)}
+        ):null}
 
           <h2 className="mt-5">Books</h2>
         </div>
@@ -105,7 +105,7 @@ class Books extends React.Component {
                       <i className="fa fa-trash" /> Delete
                     </a> */}
                   </div>
-                  ):(<p/>)}
+                  ):null}
                 </div>
               </div>
             </div>

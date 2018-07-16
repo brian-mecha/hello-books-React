@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import Menus from "../Menus";
 import { getSingleBookData, borrowBook, returnBook } from "../../utils/api";
+import { Auth } from "../../utils/auth";
 
 export default class ViewBook extends React.Component {
   constructor() {
@@ -21,7 +22,7 @@ export default class ViewBook extends React.Component {
     this.getOneBook(bookID);
   }
 
-  borrow = id => { 
+  borrow = id => {
     borrowBook(id)
       .then(rep => {
         this.setState({ error: false, message: rep.message });
@@ -45,6 +46,19 @@ export default class ViewBook extends React.Component {
 
   render() {
     const { book } = this.state;
+
+    var Button;
+    if (Auth.isAuthenticated) {
+      Button = (
+        <Link
+          to={"/users/book/" + book.book_id}
+          className="btn btn-warning card-link"
+          onClick={() => this.borrow(book.book_id)}
+        >
+          Borrow book <i className="fa fa-angle-right" />
+        </Link>
+      );
+    } 
 
     return (
       <div>
@@ -81,23 +95,12 @@ export default class ViewBook extends React.Component {
                       </tr>
                     </tbody>
                   </table>
+
                   {book.availability ? (
-                    <Link
-                      to={"/users/book/" + book.book_id}
-                      className="btn btn-warning card-link"
-                      onClick={() => this.borrow(book.book_id)}
-                    >
-                      Borrow book <i className="fa fa-chevron-right" />
-                    </Link>
-                  ) : (
-                    <Link
-                      to={"/users/book/" + book.book_id}
-                      className="btn btn-info card-link"
-                      onClick={() => this.return(book.book_id)}
-                    >
-                      <i className="fa fa-chevron-left" /> Return book
-                    </Link>
-                  )}
+                    <div>
+                    {Button}
+                    </div>
+                 ) : null }
                 </div>
               </div>
             </div>
