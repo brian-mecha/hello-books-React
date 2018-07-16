@@ -6,11 +6,9 @@ export const Auth = {
   isAuthenticated: false,
   authenticate() {
     this.isAuthenticated = true;
-    console.log(this.isAuthenticated)
   },
   signout() {
     this.isAuthenticated = false;
-    console.log(this.isAuthenticated)
   }
 };
 

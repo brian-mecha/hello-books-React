@@ -21,7 +21,7 @@ export default class ViewBook extends React.Component {
     this.getOneBook(bookID);
   }
 
-  borrow = id => {
+  borrow = id => { 
     borrowBook(id)
       .then(rep => {
         this.setState({ error: false, message: rep.message });

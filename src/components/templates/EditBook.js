@@ -1,8 +1,29 @@
 import React from "react";
 import Menus from "../Menus";
+import { getSingleBookData } from "../../utils/api";
+
 
 export default class EditBook extends React.Component {
+  constructor() {
+    super();
+    this.state = { book: [] };
+  }
+  
+  getOneBook(id) {
+    getSingleBookData(id).then(book => {
+      this.setState({ book });
+    });
+  }
+
+  componentDidMount() {
+    // console.log(this.props.match.params.id)
+    const bookID = this.props.match.params.id;
+    this.getOneBook(bookID);
+  }
+
   render() {
+    const { book } = this.state;
+
     return (
       <div>
         <Menus />
@@ -24,6 +45,8 @@ export default class EditBook extends React.Component {
                       type="text"
                       className="form-control"
                       id="title"
+                      name="title"
+                      value={book.title}
                       placeholder="Book Title"
                     />
                   </div>
@@ -35,6 +58,8 @@ export default class EditBook extends React.Component {
                     <textarea
                       className="form-control"
                       id="description"
+                      name="description"
+                      value={book.description}
                       rows="3"
                       placeholder="Book Description"
                     />
@@ -48,6 +73,8 @@ export default class EditBook extends React.Component {
                       type="text"
                       className="form-control"
                       id="author"
+                      name="author"
+                      value={book.author}
                       placeholder="Book Author"
                     />
                   </div>

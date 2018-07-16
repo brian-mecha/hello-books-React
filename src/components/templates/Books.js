@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { getBooksData, deleteBook } from "../../utils/api";
+import { Auth } from "../../utils/auth";
 
 class Books extends React.Component {
   constructor(props) {
@@ -35,11 +36,13 @@ class Books extends React.Component {
     return (
       <div className="container">
         <div className="block-header">
+        {Auth.isAuthenticated ? (
           <div className="btn-toolbar float-right">
             <Link to="book/add" className="btn btn-warning card-link">
               <i className="fa fa-plus" /> Add Book
             </Link>
           </div>
+        ):(<p/>)}
 
           <h2 className="mt-5">Books</h2>
         </div>
@@ -81,6 +84,7 @@ class Books extends React.Component {
                   >
                     Details <i className="fa fa-angle-right" />
                   </Link>
+                  {Auth.isAuthenticated ? (
                   <div className="float-right">
                     <Link
                       to={"book/edit/" + book.book_id}
@@ -101,38 +105,12 @@ class Books extends React.Component {
                       <i className="fa fa-trash" /> Delete
                     </a> */}
                   </div>
+                  ):(<p/>)}
                 </div>
               </div>
             </div>
           </div>
         ))}
-
-        {/* <div className="card">
-          <div className="card-body">
-            <div className="row">
-              <div className="col-md-12">
-                <h5 className="card-title">Book Title</h5>
-                <span className="author">by Author Name</span>
-                <p className="card-text">
-                  With supporting text below as a natural lead-in to additional
-                  content.
-                </p>
-                <Link to="book/view/100" className="btn btn-warning card-link">
-                  Details <i className="fa fa-angle-right" />
-                </Link>
-                <div className="float-right">
-                  <Link to="book/edit/100" className="btn btn-info card-link">
-                    {" "}
-                    <i className="fa fa-edit" /> Edit
-                  </Link>
-                  <a href="" className="btn btn-danger card-link">
-                    <i className="fa fa-trash" /> Delete
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div> */}
 
         <nav aria-label="...">
           <ul className="pagination">
