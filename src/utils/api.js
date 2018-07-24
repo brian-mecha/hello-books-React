@@ -18,7 +18,8 @@ export { getBooksData,
   deleteBook, 
   borrowBook,
   returnBook,
-  LogoutUser
+  LogoutUser,
+  editBook
  };
 
 function getBooksData() {
@@ -70,6 +71,21 @@ function addBook(bookData) {
   const url = `${BASE_URL}/books`;
   return axios
     .post(url, bookData, {
+      headers: request_header
+    })
+    .then(response => {
+      return ({status:'success',data: response.data})
+    })
+    .catch(error => {
+      console.log(error.response);
+      return {status:'error',data:error.response.data};
+    });
+}
+
+function editBook(bookData, id) {
+  const url = `${BASE_URL}/book/${id}`;
+  return axios
+    .put(url, bookData, id, {
       headers: request_header
     })
     .then(response => {

@@ -1,6 +1,6 @@
 import React from "react";
 import Menus from "../Menus";
-import { getSingleBookData } from "../../utils/api";
+import { getSingleBookData, editBook } from "../../utils/api";
 
 
 export default class EditBook extends React.Component {
@@ -12,14 +12,35 @@ export default class EditBook extends React.Component {
   getOneBook(id) {
     getSingleBookData(id).then(book => {
       this.setState({ book });
+      console.log(this.state)
     });
   }
 
   componentDidMount() {
-    // console.log(this.props.match.params.id)
     const bookID = this.props.match.params.id;
     this.getOneBook(bookID);
+   
   }
+
+  handleChange = e => {
+    let state = {};
+    state[e.target.name] = e.target.value;
+    this.setState(state);
+  };
+  update = e => {
+    e.preventDefault();
+    editBook(this.state)
+      .then(rep => {
+        if (rep.status === "success") {
+          this.setState({ error: false, message: rep.data.message });
+        } else {
+          this.setState({ error: true, message: rep.data.message });
+        }
+      })
+      .catch(err => {
+        this.setState({ error: true, message: err.data.message });
+      });
+  };
 
   render() {
     const { book } = this.state;
@@ -37,7 +58,7 @@ export default class EditBook extends React.Component {
 
           <div className="card">
             <div className="card-body">
-              <form action="#" method="post">
+              <form method="put" onSubmit={() => this.update(book.book_id)}>
                 <div className="form-group row">
                   <label className="col-sm-2 col-form-label">Title</label>
                   <div className="col-sm-10">
@@ -46,7 +67,7 @@ export default class EditBook extends React.Component {
                       className="form-control"
                       id="title"
                       name="title"
-                      value={book.title}
+                      value={this.state.book.title}
                       placeholder="Book Title"
                     />
                   </div>

@@ -4,6 +4,7 @@ body {
 
 .header {
   background-image: url(../src/header.jpeg);
+  background-repeat: no-repeat;
 }
 
 .card {
@@ -16,17 +17,9 @@ body {
   border-color: #7075c7;
 }
 
-.book img {
-  border: 1px solid #ddd !important; /* Gray border */
-  border-radius: 4px !important; /* Rounded border */
-  padding: 5px !important; /* Some padding */
-  width: 200px !important; /* Set a small width */
-}
-
 .book {
   display: block;
   overflow: hidden;
-  /*max-height: 230px !important;*/
 }
 
 .author {

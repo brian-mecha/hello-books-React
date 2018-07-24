@@ -34,10 +34,9 @@ export default class Menus extends React.Component {
           this.setState({ error: false, message: rep.data.message });
           localStorage.removeItem("access_token", rep.data.access_token);
           Auth.signout();
-          console.log(this.state);
+          this.props.history.push("/");
         } else {
           this.setState({ error: true, message: rep.data.message });
-          console.log(this.state);
         }
       })
       .catch(err => {
@@ -58,16 +57,20 @@ export default class Menus extends React.Component {
                   Home
                 </NavLink>
               </NavItem>
+              {Auth.isAuthenticated ? (
               <NavItem>
                 <NavLink to="/profile/" className="nav-link">
                   Profile
                 </NavLink>
               </NavItem>
+              ):null}
+              {Auth.isAuthenticated ? (
               <NavItem>
                 <NavLink to="/history/" className="nav-link">
                   History
                 </NavLink>
               </NavItem>
+              ):null}
 
               {Auth.isAuthenticated ? (
               <NavItem>

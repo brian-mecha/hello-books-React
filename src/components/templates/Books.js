@@ -2,17 +2,37 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { getBooksData, deleteBook } from "../../utils/api";
 import { Auth } from "../../utils/auth";
+import Pagination from "react-js-pagination";
+import Search from "../Search";
 
 class Books extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { books: [] };
+    this.state = {
+      books: [],
+      activePage: 1
+    };
+  }
+
+  handlePageChange(pageNumber) {
+    console.log(`active page is ${pageNumber}`);
+    this.setState({ activePage: pageNumber });
   }
 
   getAllBooks() {
     getBooksData().then(books => {
       this.setState({ books });
     });
+  }
+
+  searchBooks(query) {
+    let all_books = this.state.books.filter((book) => {
+      return book.title.includes(query) ||
+      book.description.includes(query) ||
+      book.author.includes(query)
+    });
+    console.log(all_books)
+    this.setState({books: all_books})
   }
 
   componentDidMount() {
@@ -29,20 +49,20 @@ class Books extends React.Component {
         this.setState({ error: true, message: err.message });
       });
   };
-  
+
   render() {
     const { books } = this.state;
 
     return (
       <div className="container">
         <div className="block-header">
-        {Auth.isAuthenticated ? (
-          <div className="btn-toolbar float-right">
-            <Link to="book/add" className="btn btn-warning card-link">
-              <i className="fa fa-plus" /> Add Book
-            </Link>
-          </div>
-        ):null}
+          {Auth.isAuthenticated ? (
+            <div className="btn-toolbar float-right">
+              <Link to="book/add" className="btn btn-warning card-link">
+                <i className="fa fa-plus" /> Add Book
+              </Link>
+            </div>
+          ) : null}
 
           <h2 className="mt-5">Books</h2>
         </div>
@@ -70,6 +90,8 @@ class Books extends React.Component {
           </div>
         )}
 
+        <Search searchBooks={this.searchBooks.bind(this)} />
+
         {books.map((book, index) => (
           <div className="card" key={index}>
             <div className="card-body">
@@ -85,27 +107,27 @@ class Books extends React.Component {
                     Details <i className="fa fa-angle-right" />
                   </Link>
                   {Auth.isAuthenticated ? (
-                  <div className="float-right">
-                    <Link
-                      to={"book/edit/" + book.book_id}
-                      className="btn btn-info card-link"
-                    >
-                      {" "}
-                      <i className="fa fa-edit" /> Edit
-                    </Link>
-                    <button
-                      // to={"book/" + book.book_id}
-                      className="btn btn-danger card-link"
-                      onClick={() => this.delete(book.book_id)}
-                    >
-                      {" "}
-                      <i className="fa fa-trash" /> Delete
-                    </button>
-                    {/* <a href={"book/" + book.book_id} className="btn btn-danger card-link" onClick={() => this.delete(book.book_id)}>
+                    <div className="float-right">
+                      <Link
+                        to={"book/edit/" + book.book_id}
+                        className="btn btn-info card-link"
+                      >
+                        {" "}
+                        <i className="fa fa-edit" /> Edit
+                      </Link>
+                      <button
+                        // to={"book/" + book.book_id}
+                        className="btn btn-danger card-link"
+                        onClick={() => this.delete(book.book_id)}
+                      >
+                        {" "}
+                        <i className="fa fa-trash" /> Delete
+                      </button>
+                      {/* <a href={"book/" + book.book_id} className="btn btn-danger card-link" onClick={() => this.delete(book.book_id)}>
                       <i className="fa fa-trash" /> Delete
                     </a> */}
-                  </div>
-                  ):null}
+                    </div>
+                  ) : null}
                 </div>
               </div>
             </div>
@@ -113,6 +135,20 @@ class Books extends React.Component {
         ))}
 
         <nav aria-label="...">
+          <ul className="pagination">
+            <li className="page-item">
+              <Pagination
+                activePage={this.state.activePage}
+                itemsCountPerPage={3}
+                totalItemsCount={450}
+                pageRangeDisplayed={5}
+                onChange={this.handlePageChange}
+              />
+            </li>
+          </ul>
+        </nav>
+
+        {/* <nav aria-label="...">
           <ul className="pagination">
             <li className="page-item disabled">
               <a className="page-link" href="" tabIndex="-1">
@@ -140,7 +176,7 @@ class Books extends React.Component {
               </a>
             </li>
           </ul>
-        </nav>
+        </nav> */}
       </div>
     );
   }
