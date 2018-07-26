@@ -119,7 +119,7 @@ class Register extends React.Component {
                   </form>
                 </div>
               </div>
-              <div className="footer">Copyright &copy; 2018 | Hello-Books</div>
+              <div className="footer">Copyright &copy; 2018 | <Link to="/">Hello-Books</Link></div>
             </div>
           </div>
         </div>

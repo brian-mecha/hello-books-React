@@ -98,12 +98,6 @@ class Login extends React.Component {
                       />
                     </div>
 
-                    {/* <div className="form-group">
-                      <label>
-                        <input type="checkbox" name="remember_me" /> Remember Me
-                      </label>
-                    </div> */}
-
                     <div className="form-group no-margin">
                       <button type="submit" className="btn btn-success">
                         Login
@@ -116,7 +110,7 @@ class Login extends React.Component {
                   </form>
                 </div>
               </div>
-              <div className="footer">Copyright &copy; 2018 | Hello-Books</div>
+              <div className="footer">Copyright &copy; 2018 | <Link to="/">Hello-Books</Link></div>
             </div>
           </div>
         </div>

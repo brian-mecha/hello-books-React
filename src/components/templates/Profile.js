@@ -23,7 +23,7 @@ export default class Profile extends React.Component {
     returnBook(id)
       .then(rep => {
         this.setState({ error: false, message: rep.message });
-        this.props.history.push("/");
+        this.props.history.push("/profile");
       })
       .catch(err => {
         this.setState({ error: true, message: err.message });

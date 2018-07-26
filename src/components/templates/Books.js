@@ -3,15 +3,31 @@ import { Link } from "react-router-dom";
 import { getBooksData, deleteBook } from "../../utils/api";
 import { Auth } from "../../utils/auth";
 import Pagination from "react-js-pagination";
-import Search from "../Search";
+
+
+function searchingFor(term) {
+  return function(b) {
+    return b.title.toLowerCase().includes(term.toLowerCase()) || 
+    b.author.toLowerCase().includes(term.toLowerCase()) ||
+    b.description.toLowerCase().includes(term.toLowerCase()) ||
+    !term;
+  }
+}
 
 class Books extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       books: [],
+      term: '',
       activePage: 1
     };
+
+    this.searchHandler = this.searchHandler.bind(this); 
+  }
+
+  searchHandler(event) {
+    this.setState({ term: event.target.value })
   }
 
   handlePageChange(pageNumber) {
@@ -24,18 +40,6 @@ class Books extends React.Component {
     .then(books => {
       this.setState({ books });
     });
-  }
-
-  searchBooks(query) {
-    // this.getAllBooks();
-    let all_books = this.state.books.filter((book) => {
-      return book.title.includes(query) ||
-      book.description.includes(query) ||
-      book.author.includes(query)
-    });
-    // console.log(all_books)
-    this.setState({books: all_books})
-    console.log(this.state.books)
   }
 
   componentDidMount() {
@@ -54,7 +58,7 @@ class Books extends React.Component {
   };
 
   render() {
-    const { books } = this.state;
+    const { books, term } = this.state;
 
     return (
       <div className="container">
@@ -93,9 +97,16 @@ class Books extends React.Component {
           </div>
         )}
 
-        <Search searchBooks={this.searchBooks.bind(this)} />
+        <div className="input-group mb-4">
+        <input
+          type="text"
+          className="form-control"
+          placeholder="Search Book..."
+          onChange={this.searchHandler}
+        />
+      </div>
 
-        {books.map((book, index) => (
+        {books.filter(searchingFor(term)).map((book, index) => (
           <div className="card" key={index}>
             <div className="card-body">
               <div className="row">

@@ -98,7 +98,7 @@ export default class Menus extends React.Component {
               </NavItem>
               ):null}
               
-              <form className="form-inline my-2 my-lg-0">
+              {/* <form className="form-inline my-2 my-lg-0">
                 <input
                   className="form-control mr-sm-2"
                   type="search"
@@ -108,7 +108,7 @@ export default class Menus extends React.Component {
                 <button className="btn btn-warning my-2 my-sm-0" type="submit">
                   <i className="fa fa-search" />
                 </button>
-              </form>
+              </form> */}
             </Nav>
           </Collapse>
         </Navbar>
