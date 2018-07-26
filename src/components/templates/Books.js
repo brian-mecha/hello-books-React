@@ -20,19 +20,22 @@ class Books extends React.Component {
   }
 
   getAllBooks() {
-    getBooksData().then(books => {
+    getBooksData()
+    .then(books => {
       this.setState({ books });
     });
   }
 
   searchBooks(query) {
+    // this.getAllBooks();
     let all_books = this.state.books.filter((book) => {
       return book.title.includes(query) ||
       book.description.includes(query) ||
       book.author.includes(query)
     });
-    console.log(all_books)
+    // console.log(all_books)
     this.setState({books: all_books})
+    console.log(this.state.books)
   }
 
   componentDidMount() {
