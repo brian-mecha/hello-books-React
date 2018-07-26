@@ -32,7 +32,7 @@
 3. Test the endpoints on postman
 
 ## More info
- - API on heroku: [Click here](https://dashboard.heroku.com/apps/hello-books-cp4)
+ - API on heroku: [Click here](https://hello-books-cp4.herokuapp.com/)
 
 ## Project Owner
 Brian Mecha
