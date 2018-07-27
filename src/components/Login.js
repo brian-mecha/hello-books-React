@@ -27,6 +27,7 @@ class Login extends React.Component {
           this.setState({ error: false, message: rep.data.message });
           localStorage.setItem('access_token',rep.data.access_token);
           Auth.authenticate()
+          this.props.history.push("/");
         }
         else{
           this.setState({ error: true, message: rep.data.message });
