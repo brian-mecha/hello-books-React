@@ -18,20 +18,11 @@
 3. Admin remove a book from the system
 
 ## Install Instructions
- - Pre-requisites: Python 3.6
+ - Pre-requisites: Node v10.4.0
  - Clone this repository `https://github.com/brian-mecha/hello-books-React.git`
  - Install the apps dependencies by running `npm install`
  - Open a terminal and `cd` into the cloned repository
  - Run `npm start`
- 
-## Running Tests
-1. cd into project folder
-2. Run '*pytest*'
-
-## Running api endpoints
-1. Run the app with '*python3 run.py'*
-2. Fire up Postman
-3. Test the endpoints on postman
 
 ## More info
  - API on heroku: [Click here](https://hello-books-cp4.herokuapp.com/)

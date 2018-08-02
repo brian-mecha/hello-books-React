@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Menus from "../Menus";
-import { getSingleBookData, borrowBook, returnBook } from "../../utils/api";
+import { getSingleBookData, borrowBook } from "../../utils/api";
 import { Auth } from "../../utils/auth";
 
 export default class ViewBook extends React.Component {
@@ -26,18 +26,7 @@ export default class ViewBook extends React.Component {
     borrowBook(id)
       .then(rep => {
         this.setState({ error: false, message: rep.message });
-        this.props.history.push("/");
-      })
-      .catch(err => {
-        this.setState({ error: true, message: err.message });
-      });
-  };
-
-  return = id => {
-    returnBook(id)
-      .then(rep => {
-        this.setState({ error: false, message: rep.message });
-        this.props.history.push("/");
+        this.props.history.push("/profile");
       })
       .catch(err => {
         this.setState({ error: true, message: err.message });

@@ -2,8 +2,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { getBooksData, deleteBook } from "../../utils/api";
 import { Auth } from "../../utils/auth";
-import Pagination from "react-js-pagination";
-
 
 function searchingFor(term) {
   return function(b) {
@@ -20,7 +18,6 @@ class Books extends React.Component {
     this.state = {
       books: [],
       term: '',
-      activePage: 1
     };
 
     this.searchHandler = this.searchHandler.bind(this); 
@@ -28,11 +25,6 @@ class Books extends React.Component {
 
   searchHandler(event) {
     this.setState({ term: event.target.value })
-  }
-
-  handlePageChange(pageNumber) {
-    console.log(`active page is ${pageNumber}`);
-    this.setState({ activePage: pageNumber });
   }
 
   getAllBooks() {
@@ -129,17 +121,15 @@ class Books extends React.Component {
                         {" "}
                         <i className="fa fa-edit" /> Edit
                       </Link>
+                      
                       <button
-                        // to={"book/" + book.book_id}
                         className="btn btn-danger card-link"
                         onClick={() => this.delete(book.book_id)}
                       >
                         {" "}
                         <i className="fa fa-trash" /> Delete
                       </button>
-                      {/* <a href={"book/" + book.book_id} className="btn btn-danger card-link" onClick={() => this.delete(book.book_id)}>
-                      <i className="fa fa-trash" /> Delete
-                    </a> */}
+                      
                     </div>
                   ) : null}
                 </div>
@@ -148,49 +138,6 @@ class Books extends React.Component {
           </div>
         ))}
 
-        <nav aria-label="...">
-          <ul className="pagination">
-            <li className="page-item">
-              <Pagination
-                activePage={this.state.activePage}
-                itemsCountPerPage={3}
-                totalItemsCount={450}
-                pageRangeDisplayed={5}
-                onChange={this.handlePageChange}
-              />
-            </li>
-          </ul>
-        </nav>
-
-        {/* <nav aria-label="...">
-          <ul className="pagination">
-            <li className="page-item disabled">
-              <a className="page-link" href="" tabIndex="-1">
-                Previous
-              </a>
-            </li>
-            <li className="page-item active">
-              <a className="page-link" href="">
-                1 <span className="sr-only">(current)</span>
-              </a>
-            </li>
-            <li className="page-item">
-              <a className="page-link" href="">
-                2
-              </a>
-            </li>
-            <li className="page-item">
-              <a className="page-link" href="">
-                3
-              </a>
-            </li>
-            <li className="page-item">
-              <a className="page-link" href="">
-                Next
-              </a>
-            </li>
-          </ul>
-        </nav> */}
       </div>
     );
   }

@@ -12,7 +12,6 @@ export default class EditBook extends React.Component {
   getOneBook(id) {
     getSingleBookData(id).then(book => {
       this.setState({ book });
-      console.log(this.state)
     });
   }
 
@@ -23,13 +22,17 @@ export default class EditBook extends React.Component {
   }
 
   handleChange = e => {
-    let state = {};
-    state[e.target.name] = e.target.value;
-    this.setState(state);
+    let edited = {};
+    edited[e.target.name] = e.target.value;
+    this.setState(edited);
+    // this.setState({
+    //   book: edited,
+    // });
+    console.log(this.state)
   };
   update = e => {
     e.preventDefault();
-    editBook(this.state)
+    editBook(this.edited)
       .then(rep => {
         if (rep.status === "success") {
           this.setState({ error: false, message: rep.data.message });
@@ -67,7 +70,8 @@ export default class EditBook extends React.Component {
                       className="form-control"
                       id="title"
                       name="title"
-                      value={this.state.book.title}
+                      value={book.title}
+                      onChange={this.handleChange}
                       placeholder="Book Title"
                     />
                   </div>

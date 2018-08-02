@@ -82,6 +82,7 @@ class Login extends React.Component {
                         name="email"
                         onChange={this.handleChange}
                         value={this.state.email}
+                        autoFocus
                         required
                       />
                     </div>

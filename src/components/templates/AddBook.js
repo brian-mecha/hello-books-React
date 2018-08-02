@@ -23,6 +23,7 @@ export default class AddBook extends React.Component {
       .then(rep => {
         if (rep.status === "success") {
           this.setState({ error: false, message: rep.data.message });
+          this.props.history.push("/");
         } else {
           this.setState({ error: true, message: rep.data.message });
         }

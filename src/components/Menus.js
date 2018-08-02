@@ -28,13 +28,13 @@ export default class Menus extends React.Component {
 
   logout = e => {
     e.preventDefault();
-    LogoutUser(this.state)
+    LogoutUser()
       .then(rep => {
         if (rep.status === "success") {
-          this.setState({ error: false, message: rep.data.message });
+          // this.setState({ error: false, message: rep.data.message });
           localStorage.removeItem("access_token", rep.data.access_token);
           Auth.signout();
-          this.props.history.push("/");
+          this.props.history.push("/login");
         } else {
           this.setState({ error: true, message: rep.data.message });
         }

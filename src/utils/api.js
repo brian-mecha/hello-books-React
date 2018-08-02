@@ -1,7 +1,8 @@
 import axios from "axios";
 
 // const BASE_URL = 'https://hello-booksc3.herokuapp.com/api/v2';
-const BASE_URL = "http://127.0.0.1:5000/api/v2";
+// const BASE_URL = "http://127.0.0.1:5000/api/v2";
+const BASE_URL = process.env.REACT_APP_base_url;
 const request_header = {
   "Content-Type": "application/json",
   Accept: "application/json",
@@ -100,7 +101,7 @@ function editBook(bookData, id) {
 function deleteBook(id) {
   const url = `${BASE_URL}/book/${id}`;
   return axios
-    .delete(url, {}, {
+    .delete(url, {id}, {
       headers: request_header
     })
     .then(response => response.data)
