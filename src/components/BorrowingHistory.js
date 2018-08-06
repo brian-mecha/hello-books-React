@@ -57,7 +57,7 @@ class BorrowingHistory extends React.Component {
                         ) : (
                           <td className="text-center">-</td>
                         )}
-                        
+
                         {hist.returned === false ? (
                           <td className="text-warning">UN-RETURNED</td>
                         ) : (

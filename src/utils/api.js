@@ -1,7 +1,5 @@
 import axios from "axios";
 
-// const BASE_URL = 'https://hello-booksc3.herokuapp.com/api/v2';
-// const BASE_URL = "http://127.0.0.1:5000/api/v2";
 const BASE_URL = process.env.REACT_APP_base_url;
 const request_header = {
   "Content-Type": "application/json",
@@ -29,6 +27,7 @@ function getBooksData() {
     headers: request_header
   }).then(response => response.data)
   .catch(error => {
+    console.log(error.response)
     return error.response.data;
   });
 }

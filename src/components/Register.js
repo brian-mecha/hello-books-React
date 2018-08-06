@@ -23,7 +23,7 @@ class Register extends React.Component {
       .then(rep => {
         if(rep.status==='success'){
           this.setState({ error: false, message: rep.data.message });
-          localStorage.setItem('access_token',rep.access_token);
+          this.props.history.push("/login");
         }
         else{
           this.setState({ error: true, message: rep.data.message });

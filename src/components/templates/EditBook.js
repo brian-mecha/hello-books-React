@@ -6,7 +6,10 @@ import { getSingleBookData, editBook } from "../../utils/api";
 export default class EditBook extends React.Component {
   constructor() {
     super();
-    this.state = { book: [] };
+    this.state = { 
+      book: [],
+      // edited: {}
+    };
   }
   
   getOneBook(id) {
@@ -18,6 +21,7 @@ export default class EditBook extends React.Component {
   componentDidMount() {
     const bookID = this.props.match.params.id;
     this.getOneBook(bookID);
+    // this.props.getSingleBookData(bookID)
    
   }
 
@@ -25,11 +29,9 @@ export default class EditBook extends React.Component {
     let edited = {};
     edited[e.target.name] = e.target.value;
     this.setState(edited);
-    // this.setState({
-    //   book: edited,
-    // });
-    console.log(this.state)
+    // console.log(this.state)
   };
+  
   update = e => {
     e.preventDefault();
     editBook(this.edited)
@@ -84,6 +86,7 @@ export default class EditBook extends React.Component {
                       className="form-control"
                       id="description"
                       name="description"
+                      onChange={this.handleChange}
                       value={book.description}
                       rows="3"
                       placeholder="Book Description"
@@ -99,6 +102,7 @@ export default class EditBook extends React.Component {
                       className="form-control"
                       id="author"
                       name="author"
+                      onChange={this.handleChange}
                       value={book.author}
                       placeholder="Book Author"
                     />

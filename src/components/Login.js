@@ -74,7 +74,7 @@ class Login extends React.Component {
                   
                   <form method="GET" onSubmit={this.login}>
                     <div className="form-group">
-                      <label htmlFor="email">E-Mail Address</label>
+                      <label htmlFor="email">Email</label>
                       <input
                         id="email"
                         type="email"
