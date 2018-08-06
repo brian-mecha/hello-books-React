@@ -5,11 +5,13 @@ import { Auth } from "../../utils/auth";
 
 function searchingFor(term) {
   return function(b) {
-    return b.title.toLowerCase().includes(term.toLowerCase()) || 
-    b.author.toLowerCase().includes(term.toLowerCase()) ||
-    b.description.toLowerCase().includes(term.toLowerCase()) ||
-    !term;
-  }
+    return (
+      b.title.toLowerCase().includes(term.toLowerCase()) ||
+      b.author.toLowerCase().includes(term.toLowerCase()) ||
+      b.description.toLowerCase().includes(term.toLowerCase()) ||
+      !term
+    );
+  };
 }
 
 class Books extends React.Component {
@@ -17,19 +19,18 @@ class Books extends React.Component {
     super(props);
     this.state = {
       books: [],
-      term: '',
+      term: ""
     };
 
-    this.searchHandler = this.searchHandler.bind(this); 
+    this.searchHandler = this.searchHandler.bind(this);
   }
 
   searchHandler(event) {
-    this.setState({ term: event.target.value })
+    this.setState({ term: event.target.value });
   }
 
   getAllBooks() {
-    getBooksData()
-    .then(books => {
+    getBooksData().then(books => {
       this.setState({ books });
     });
   }
@@ -90,54 +91,53 @@ class Books extends React.Component {
         )}
 
         <div className="input-group mb-4">
-        <input
-          type="text"
-          className="form-control"
-          placeholder="Search Book..."
-          onChange={this.searchHandler}
-        />
-      </div>
+          <input
+            type="text"
+            className="form-control"
+            placeholder="Search Book..."
+            onChange={this.searchHandler}
+          />
+        </div>
+        <div className="card-columns">
+          {books.filter(searchingFor(term)).map((book, index) => (
+            <div className="card" key={index}>
+              <div className="card-body">
+                <div className="row">
+                  <div className="col-md-12">
+                    <h5 className="card-title">{book.title}</h5>
+                    <span className="author">by {book.author}</span>
+                    <p className="card-text">{book.description.substr(0, 120)}</p>
+                    <Link
+                      to={"book/view/" + book.book_id}
+                      className="btn btn-warning  btn-sm card-link"
+                    >
+                      Details <i className="fa fa-angle-right" />
+                    </Link>
+                    {Auth.isAuthenticated ? (
+                      <div className="float-right">
+                        <Link
+                          to={"book/edit/" + book.book_id}
+                          className="btn btn-info card-link"
+                        >
+                          {" "}
+                          <i className="fa fa-edit" /> Edit
+                        </Link>
 
-        {books.filter(searchingFor(term)).map((book, index) => (
-          <div className="card" key={index}>
-            <div className="card-body">
-              <div className="row">
-                <div className="col-md-12">
-                  <h5 className="card-title">{book.title}</h5>
-                  <span className="author">by {book.author}</span>
-                  <p className="card-text">{book.description}</p>
-                  <Link
-                    to={"book/view/" + book.book_id}
-                    className="btn btn-warning card-link"
-                  >
-                    Details <i className="fa fa-angle-right" />
-                  </Link>
-                  {Auth.isAuthenticated ? (
-                    <div className="float-right">
-                      <Link
-                        to={"book/edit/" + book.book_id}
-                        className="btn btn-info card-link"
-                      >
-                        {" "}
-                        <i className="fa fa-edit" /> Edit
-                      </Link>
-                      
-                      <button
-                        className="btn btn-danger card-link"
-                        onClick={() => this.delete(book.book_id)}
-                      >
-                        {" "}
-                        <i className="fa fa-trash" /> Delete
-                      </button>
-                      
-                    </div>
-                  ) : null}
+                        <button
+                          className="btn btn-danger card-link"
+                          onClick={() => this.delete(book.book_id)}
+                        >
+                          {" "}
+                          <i className="fa fa-trash" /> Delete
+                        </button>
+                      </div>
+                    ) : null}
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        ))}
-
+          ))}
+        </div>
       </div>
     );
   }
