@@ -26,6 +26,8 @@ export default class Menus extends React.Component {
     });
   }
 
+  // Logouts the logged in user via the API
+
   logout = e => {
     e.preventDefault();
     LogoutUser()
@@ -43,6 +45,8 @@ export default class Menus extends React.Component {
         this.setState({ error: true, message: err.data.message });
       });
   };
+
+  // Renders the Application's Top Navbar
 
   render() {
     return (

@@ -6,12 +6,14 @@ import { getSingleBookData, editBook } from "../../utils/api";
 export default class EditBook extends React.Component {
   constructor() {
     super();
+    // Initializes an empty book state
     this.state = { 
       book: [],
       // edited: {}
     };
   }
   
+  // gets the book to be edited from the API and sets to state book
   getOneBook(id) {
     getSingleBookData(id).then(book => {
       this.setState({ book });
@@ -25,6 +27,7 @@ export default class EditBook extends React.Component {
    
   }
 
+  // handles amy change in any of the input fields
   handleChange = e => {
     let edited = {};
     edited[e.target.name] = e.target.value;
@@ -32,6 +35,7 @@ export default class EditBook extends React.Component {
     // console.log(this.state)
   };
   
+  // Updates the book in the API
   update = e => {
     e.preventDefault();
     editBook(this.edited)
@@ -47,6 +51,7 @@ export default class EditBook extends React.Component {
       });
   };
 
+  // Renders the form to edit the book
   render() {
     const { book } = this.state;
 

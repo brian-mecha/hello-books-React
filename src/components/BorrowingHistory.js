@@ -3,11 +3,13 @@ import Menus from "./Menus";
 import { borrowingHistory } from "../utils/api";
 
 class BorrowingHistory extends React.Component {
+//  Initializes an empty history state
   constructor() {
     super();
     this.state = { history: [] };
   }
 
+  // Gets all the borrowing history of the logged in user from the API
   getBorrowingHistory() {
     borrowingHistory().then(history => {
       this.setState({ history });
@@ -18,6 +20,7 @@ class BorrowingHistory extends React.Component {
     this.getBorrowingHistory();
   }
 
+  // Renders the Borrowing history of the logged in user
   render() {
     const { history } = this.state;
     return (

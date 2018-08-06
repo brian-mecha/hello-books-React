@@ -4,11 +4,13 @@ import { Link } from "react-router-dom";
 import { unreturnedBooks, returnBook } from "../../utils/api";
 
 export default class Profile extends React.Component {
+  // Initializes an empty state unreturned
   constructor() {
     super();
     this.state = { unreturned: [] };
   }
 
+  // Gets all books not returned by the User
   getUnreturnedBooks() {
     unreturnedBooks().then(unreturned => {
       this.setState({ unreturned });
@@ -19,6 +21,7 @@ export default class Profile extends React.Component {
     this.getUnreturnedBooks();
   }
 
+  // Returns a book borrowed by the User
   return = id => {
     returnBook(id)
       .then(rep => {
@@ -30,6 +33,7 @@ export default class Profile extends React.Component {
       });
   };
 
+  // Renders all books unreturned by user
   render() {
     const { unreturned } = this.state;
 

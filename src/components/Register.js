@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { RegisterUser } from "../utils/api";
 
 class Register extends React.Component {
+  //  Initializes empty states username, email and password
   constructor(props) {
     super(props);
     this.state = {
@@ -11,21 +12,23 @@ class Register extends React.Component {
       password: ""
     };
   }
+
+  // Handles any change in any of the input fields
   handleChange = e => {
     let state = {};
     state[e.target.name] = e.target.value;
     this.setState(state);
   };
 
+  // Validates and registers the user via the API
   register = e => {
     e.preventDefault();
     RegisterUser(this.state)
       .then(rep => {
-        if(rep.status==='success'){
+        if (rep.status === "success") {
           this.setState({ error: false, message: rep.data.message });
           this.props.history.push("/login");
-        }
-        else{
+        } else {
           this.setState({ error: true, message: rep.data.message });
         }
       })
@@ -33,7 +36,8 @@ class Register extends React.Component {
         this.setState({ error: true, message: err.data.message });
       });
   };
-  
+
+  // Renders the user registration form
   render() {
     return (
       <section className="h-100">
@@ -50,11 +54,14 @@ class Register extends React.Component {
                   <h4 className="card-title text-center">Register</h4>
 
                   {this.state.message && (
-                    <div className={
-                      this.state.error
-                        ? "alert alert-danger alert-dismissible fade show"
-                        : "alert alert-success alert-dismissible fade show"
-                    } role="alert">
+                    <div
+                      className={
+                        this.state.error
+                          ? "alert alert-danger alert-dismissible fade show"
+                          : "alert alert-success alert-dismissible fade show"
+                      }
+                      role="alert"
+                    >
                       <button
                         type="button"
                         className="close"
@@ -119,7 +126,9 @@ class Register extends React.Component {
                   </form>
                 </div>
               </div>
-              <div className="footer">Copyright &copy; 2018 | <Link to="/">Hello-Books</Link></div>
+              <div className="footer">
+                Copyright &copy; 2018 | <Link to="/">Hello-Books</Link>
+              </div>
             </div>
           </div>
         </div>
