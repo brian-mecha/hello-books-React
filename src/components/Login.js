@@ -4,6 +4,7 @@ import { LoginUser } from "../utils/api";
 import { Auth } from "../utils/auth";
 
 class Login extends React.Component {
+//  Initializes empty states email and password
   constructor(props) {
     super(props);
     this.state = {
@@ -14,11 +15,15 @@ class Login extends React.Component {
   componentDidMount(){
     // console.log(localStorage.getItem('access_token'))
   }
+  
+  // Handles any change from any of the input fields
   handleChange = e => {
     let state = {};
     state[e.target.name] = e.target.value;
     this.setState(state);
   };
+
+  // Authenticates and logs in the user via the API
   login = e => {
     e.preventDefault();
     LoginUser(this.state)
@@ -38,7 +43,7 @@ class Login extends React.Component {
       });
   };
 
-
+// Renders the Login form
   render() {
     return (
       <section className="h-100">

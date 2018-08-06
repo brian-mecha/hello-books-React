@@ -12,6 +12,8 @@ import { PrivateRoute } from "../utils/auth";
 
 class Navigation extends React.Component {
   render() {
+    
+    // Handles 404 requests
     const NoMatch = ({ location }) => (
       <div className="container">
         <div className="row">
@@ -37,6 +39,7 @@ class Navigation extends React.Component {
       </div>
     );
     
+    // Handles all the routes in the application
     return (
       <div>
         <Router>

@@ -5,11 +5,13 @@ import { getSingleBookData, borrowBook } from "../../utils/api";
 import { Auth } from "../../utils/auth";
 
 export default class ViewBook extends React.Component {
+//  Initializes an empty book state
   constructor() {
     super();
     this.state = { book: [] };
   }
 
+  // Gets a book with the specified ID from the API
   getOneBook(id) {
     getSingleBookData(id).then(book => {
       this.setState({ book });
@@ -17,11 +19,11 @@ export default class ViewBook extends React.Component {
   }
 
   componentDidMount() {
-    // console.log(this.props.match.params.id)
     const bookID = this.props.match.params.id;
     this.getOneBook(bookID);
   }
 
+  // Allows User to borrow a book
   borrow = id => {
     borrowBook(id)
       .then(rep => {
@@ -36,6 +38,7 @@ export default class ViewBook extends React.Component {
   render() {
     const { book } = this.state;
 
+    // Allows only allowed users to see borrow a book
     var Button;
     if (Auth.isAuthenticated) {
       Button = (
@@ -49,6 +52,7 @@ export default class ViewBook extends React.Component {
       );
     } 
 
+    // Displays the book with the specifed ID
     return (
       <div>
         <Menus />

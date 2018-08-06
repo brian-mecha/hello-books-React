@@ -15,6 +15,7 @@ function searchingFor(term) {
 }
 
 class Books extends React.Component {
+  // Initializes empty states: books to hold all books and term to hold the key words used to search the books state
   constructor(props) {
     super(props);
     this.state = {
@@ -22,13 +23,16 @@ class Books extends React.Component {
       term: ""
     };
 
+    // Initializes the search functionality
     this.searchHandler = this.searchHandler.bind(this);
   }
 
+  // Handles the search functionality on each key stroke
   searchHandler(event) {
     this.setState({ term: event.target.value });
   }
 
+  // Gets all books from thr API
   getAllBooks() {
     getBooksData().then(books => {
       this.setState({ books });
@@ -39,6 +43,7 @@ class Books extends React.Component {
     this.getAllBooks();
   }
 
+  // Deletes the selected book
   delete = id => {
     deleteBook(id)
       .then(rep => {
@@ -50,6 +55,7 @@ class Books extends React.Component {
       });
   };
 
+  // Renders all the books from the API
   render() {
     const { books, term } = this.state;
 

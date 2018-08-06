@@ -1,6 +1,10 @@
+// Handles all API requests
 import axios from "axios";
 
+// The base URL for all requests to the API
 const BASE_URL = process.env.REACT_APP_base_url;
+
+// Request header for all requests to the API
 const request_header = {
   "Content-Type": "application/json",
   Accept: "application/json",
@@ -21,6 +25,7 @@ export { getBooksData,
   editBook
  };
 
+// Gets all books from the API
 function getBooksData() {
   const url = `${BASE_URL}/books`;
   return axios.get(url, {
@@ -32,11 +37,13 @@ function getBooksData() {
   });
 }
 
+// Gets a book with the specified ID from the API
 function getSingleBookData(id) {
   const url = `${BASE_URL}/book/${id}`;
   return axios.get(url).then(response => response.data);
 }
 
+// Validates and registers a user via the API
 function RegisterUser(userData) {
   const url = `${BASE_URL}/auth/register`;
   return axios
@@ -52,6 +59,7 @@ function RegisterUser(userData) {
     });
 }
 
+// Authenticates and logs in the user via the API
 function LoginUser(userData) {
   const url = `${BASE_URL}/auth/login`;
   return axios
@@ -67,6 +75,7 @@ function LoginUser(userData) {
     });
 }
 
+// Creates a new book in the API
 function addBook(bookData) {
   const url = `${BASE_URL}/books`;
   return axios
@@ -82,6 +91,7 @@ function addBook(bookData) {
     });
 }
 
+// Edits a book with the specified ID via the API
 function editBook(bookData, id) {
   const url = `${BASE_URL}/book/${id}`;
   return axios
@@ -97,6 +107,7 @@ function editBook(bookData, id) {
     });
 }
 
+// Deletes a book with the specified ID via the API
 function deleteBook(id) {
   const url = `${BASE_URL}/book/${id}`;
   return axios
@@ -110,6 +121,7 @@ function deleteBook(id) {
     });
 }
 
+// Borrows a book with the specified ID via the API
 function borrowBook(id) {
   const url = `${BASE_URL}/users/book/${id}`;
   return axios
@@ -136,6 +148,7 @@ function returnBook(id) {
     });
 }
 
+// Gets the logged in user's borrowing history
 function borrowingHistory() {
   const url = `${BASE_URL}/users/books`;
   return axios
@@ -145,6 +158,7 @@ function borrowingHistory() {
     .then(response => response.data);
 }
 
+// Gets all books yet to be returned by the logged in user
 function unreturnedBooks() {
   const url = `${BASE_URL}/users/books?returned=false`;
   return axios
@@ -154,6 +168,7 @@ function unreturnedBooks() {
     .then(response => response.data);
 }
 
+// Logs out the user via the API
 function LogoutUser() {
   const url = `${BASE_URL}/auth/logout`;
   return axios

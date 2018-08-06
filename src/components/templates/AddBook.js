@@ -5,6 +5,7 @@ import { addBook } from "../../utils/api";
 export default class AddBook extends React.Component {
   constructor(props) {
     super(props);
+    // Initializes an empty input fileds for a new book
     this.state = {
       title: "",
       description: "",
@@ -12,11 +13,15 @@ export default class AddBook extends React.Component {
       error: false
     };
   }
+
+  // Handles any new change in the input fields
   handleChange = e => {
     let state = {};
     state[e.target.name] = e.target.value;
     this.setState(state);
   };
+
+  // Creates a new book via the API and redirects back to home page
   add = e => {
     e.preventDefault();
     addBook(this.state)
@@ -33,6 +38,7 @@ export default class AddBook extends React.Component {
       });
   };
 
+  // Renders the form to add a new book
   render() {
     return (
       <div>
