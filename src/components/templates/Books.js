@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { getBooksData, deleteBook } from "../../utils/api";
 import { Auth } from "../../utils/auth";
+import { BookItem } from "../BookItem";
 
 function searchingFor(term) {
   return function(b) {
@@ -62,11 +63,11 @@ class Books extends React.Component {
     return (
       <div className="container">
         <div className="block-header">
-          {Auth.isAuthenticated ? (
+          {Auth.loggedIn ? (
             <div className="btn-toolbar float-right">
-              <Link to="book/add" className="btn btn-warning card-link">
+              {/* <Link to="book/add" className="btn btn-warning card-link">
                 <i className="fa fa-plus" /> Add Book
-              </Link>
+              </Link> */}
             </div>
           ) : null}
 
@@ -98,6 +99,7 @@ class Books extends React.Component {
 
         <div className="input-group mb-4">
           <input
+            id="searchpoint"
             type="text"
             className="form-control"
             placeholder="Search Book..."
@@ -106,42 +108,46 @@ class Books extends React.Component {
         </div>
         <div className="card-columns">
           {books.filter(searchingFor(term)).map((book, index) => (
-            <div className="card" key={index}>
-              <div className="card-body">
-                <div className="row">
-                  <div className="col-md-12">
-                    <h5 className="card-title">{book.title}</h5>
-                    <span className="author">by {book.author}</span>
-                    <p className="card-text">{book.description.substr(0, 120)}</p>
-                    <Link
-                      to={"book/view/" + book.book_id}
-                      className="btn btn-warning  btn-sm card-link"
-                    >
-                      Details <i className="fa fa-angle-right" />
-                    </Link>
-                    {Auth.isAuthenticated ? (
-                      <div className="float-right">
-                        <Link
-                          to={"book/edit/" + book.book_id}
-                          className="btn btn-info card-link"
-                        >
-                          {" "}
-                          <i className="fa fa-edit" /> Edit
-                        </Link>
+            <BookItem book={book} key={index} />
+            // <div className="card" key={index}>
+            //   <div className="card-body">
+            //     <div className="row">
+            //       <div className="col-md-12">
+            //         <h5 className="card-title">{book.title}</h5>
+            //         <span className="author">by {book.author}</span>
+            //         <p className="card-text">
+            //           {book.description.substr(0, 120)}
+            //         </p>
+            //         <Link
+            //           to={"book/view/" + book.book_id}
+            //           className="card-link text-warning"
+            //         >
+            //           Details <i className="fa fa-angle-right" />
+            //         </Link>
+            //         {Auth.loggedIn ? (
+            //           <div className="float-right">
+            //             <Link
+            //               to={"book/edit/" + book.book_id}
+            //               className="btn btn-info card-link"
+            //             >
+            //               {" "}
+            //               <i className="fa fa-edit" /> Edit
+            //             </Link>
 
-                        <button
-                          className="btn btn-danger card-link"
-                          onClick={() => this.delete(book.book_id)}
-                        >
-                          {" "}
-                          <i className="fa fa-trash" /> Delete
-                        </button>
-                      </div>
-                    ) : null}
-                  </div>
-                </div>
-              </div>
-            </div>
+            //             <Link
+            //               to="/"
+            //               className="btn btn-danger bt-sm card-link"
+            //               onClick={() => this.delete(book.book_id)}
+            //             >
+            //               {" "}
+            //               <i className="fa fa-trash" />
+            //             </Link>
+            //           </div>
+            //         ) : null}
+            //       </div>
+            //     </div>
+            //   </div>
+            // </div>
           ))}
         </div>
       </div>

@@ -40,7 +40,7 @@ export default class ViewBook extends React.Component {
 
     // Allows only allowed users to see borrow a book
     var Button;
-    if (Auth.isAuthenticated) {
+    if (Auth.loggedIn) {
       Button = (
         <Link
           to={"/users/book/" + book.book_id}
