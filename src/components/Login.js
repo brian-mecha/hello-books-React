@@ -1,40 +1,46 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { LoginUser } from "../utils/api";
+import AuthService from "./AuthService";
 import { Auth } from "../utils/auth";
 
 class Login extends React.Component {
-//  Initializes empty states email and password
+  //  Initializes empty states email and password
   constructor(props) {
     super(props);
-    this.state = {
-      email: "",
-      password: ""
-    };
+    this.handleChange = this.handleChange.bind(this);
+    this.handleFormSubmit = this.handleFormSubmit.bind(this);
+    this.Auth = new AuthService();
+    // this.state = {
+    //   email: "",
+    //   password: ""
+    // };
   }
-  componentDidMount(){
-    // console.log(localStorage.getItem('access_token'))
+
+  componentWillMount() {
+    if (this.Auth.loggedIn()) {
+      this.props.history.replace("/");
+    }
   }
-  
+
   // Handles any change from any of the input fields
-  handleChange = e => {
-    let state = {};
-    state[e.target.name] = e.target.value;
-    this.setState(state);
-  };
+  // handleChange = e => {
+  //   let state = {};
+  //   state[e.target.name] = e.target.value;
+  //   this.setState(state);
+  // };
 
   // Authenticates and logs in the user via the API
   login = e => {
     e.preventDefault();
     LoginUser(this.state)
       .then(rep => {
-        if(rep.status==='success'){
+        if (rep.status === "success") {
           this.setState({ error: false, message: rep.data.message });
-          localStorage.setItem('access_token',rep.data.access_token);
-          Auth.authenticate()
+          localStorage.setItem("access_token", rep.data.access_token);
+          Auth.authenticate();
           this.props.history.push("/");
-        }
-        else{
+        } else {
           this.setState({ error: true, message: rep.data.message });
         }
       })
@@ -43,7 +49,7 @@ class Login extends React.Component {
       });
   };
 
-// Renders the Login form
+  // Renders the Login form
   render() {
     return (
       <section className="h-100">
@@ -59,12 +65,15 @@ class Login extends React.Component {
                 <div className="card-body">
                   <h4 className="card-title text-center">Login</h4>
 
-                  {this.state.message && (
-                    <div className={
-                      this.state.error
-                        ? "alert alert-danger alert-dismissible fade show"
-                        : "alert alert-success alert-dismissible fade show"
-                    } role="alert">
+                  {/* {this.state.message && (
+                    <div
+                      className={
+                        this.state.error
+                          ? "alert alert-danger alert-dismissible fade show"
+                          : "alert alert-success alert-dismissible fade show"
+                      }
+                      role="alert"
+                    >
                       <button
                         type="button"
                         className="close"
@@ -75,9 +84,9 @@ class Login extends React.Component {
                       </button>
                       {this.state.message}
                     </div>
-                  )}
-                  
-                  <form method="GET" onSubmit={this.login}>
+                  )} */}
+
+                  <form onSubmit={this.handleFormSubmit}>
                     <div className="form-group">
                       <label htmlFor="email">Email</label>
                       <input
@@ -86,7 +95,7 @@ class Login extends React.Component {
                         className="form-control"
                         name="email"
                         onChange={this.handleChange}
-                        value={this.state.email}
+                        // value={this.state.email}
                         autoFocus
                         required
                       />
@@ -100,7 +109,7 @@ class Login extends React.Component {
                         className="form-control"
                         name="password"
                         onChange={this.handleChange}
-                        value={this.state.password}
+                        // value={this.state.password}
                         required
                       />
                     </div>
@@ -112,18 +121,39 @@ class Login extends React.Component {
                     </div>
 
                     <div className="margin-top20 text-center">
-                      Don't have an account? <Link to="/register">Register</Link>
+                      Don't have an account?{" "}
+                      <Link to="/register">Register</Link>
                     </div>
                   </form>
                 </div>
               </div>
-              <div className="footer">Copyright &copy; 2018 | <Link to="/">Hello-Books</Link></div>
+              <div className="footer">
+                Copyright &copy; 2018 | <Link to="/">Hello-Books</Link>
+              </div>
             </div>
           </div>
         </div>
       </section>
     );
   }
+  handleChange(e) {
+    this.setState({
+      [e.target.name]: e.target.value
+    });
+  }
+
+  handleFormSubmit(e){
+    e.preventDefault();
+  
+    this.Auth.login(this.state.email,this.state.password)
+        .then(res =>{
+          //  this.props.history.replace('/');
+           window.location.reload()
+        })
+        .catch(err =>{
+            alert(err);
+        })
+}
 }
 
 export default Login;

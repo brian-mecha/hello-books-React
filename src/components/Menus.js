@@ -5,13 +5,14 @@ import {
   NavbarToggler,
   NavbarBrand,
   Nav,
-  NavItem,
+  NavItem
 } from "reactstrap";
-import { NavLink } from "react-router-dom";
+import { NavLink, withRouter } from "react-router-dom";
 import { LogoutUser } from "../utils/api";
 import { Auth } from "../utils/auth";
+import withAuth from './withAuth';
 
-export default class Menus extends React.Component {
+class Menus extends React.Component {
   constructor(props) {
     super(props);
 
@@ -51,7 +52,7 @@ export default class Menus extends React.Component {
   render() {
     return (
       <div>
-        <Navbar color="dark" dark expand="md">
+        <Navbar color="dark" dark expand="md" id="Topbar">
           <NavbarBrand href="/">Hello Books</NavbarBrand>
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
@@ -61,62 +62,58 @@ export default class Menus extends React.Component {
                   Home
                 </NavLink>
               </NavItem>
-              {Auth.isAuthenticated ? (
-              <NavItem>
-                <NavLink to="/profile/" className="nav-link">
-                  Profile
-                </NavLink>
-              </NavItem>
-              ):null}
-              {Auth.isAuthenticated ? (
-              <NavItem>
-                <NavLink to="/history/" className="nav-link">
-                  History
-                </NavLink>
-              </NavItem>
-              ):null}
+              {Auth.loggedIn ? (
+                <NavItem>
+                  <NavLink to="/profile/" className="nav-link">
+                    Profile
+                  </NavLink>
+                </NavItem>
+              ) : null}
+              {Auth.loggedIn ? (
+                <NavItem>
+                  <NavLink to="/history/" className="nav-link">
+                    History
+                  </NavLink>
+                </NavItem>
+              ) : null}
 
-              {Auth.isAuthenticated ? (
-              <NavItem>
-                <NavLink
-                  to="/logout"
-                  onClick={this.logout}
-                  className="nav-link"
-                >
-                  Logout
-                </NavLink>
-              </NavItem>
+              {Auth.loggedIn ? (
+                <NavItem>
+                  <button
+                    // to="/logout"
+                    onClick={this.handleLogout}
+                    className=" btn btn-warning"
+                  >
+                    Logout
+                  </button>
+                </NavItem>
               ) : (
-              <NavItem>
-                <NavLink to="/login" className="nav-link">
-                  Login
-                </NavLink>
-              </NavItem>
+                <NavItem>
+                  <NavLink to="/login" className="nav-link">
+                    Login
+                  </NavLink>
+                </NavItem>
               )}
-              
-              {Auth.isAuthenticated === false ? (
-              <NavItem>
-                <NavLink to="/register" className="nav-link">
-                  Register
-                </NavLink>
-              </NavItem>
-              ):null}
-              
-              {/* <form className="form-inline my-2 my-lg-0">
-                <input
-                  className="form-control mr-sm-2"
-                  type="search"
-                  placeholder="Search"
-                  aria-label="Search"
-                />
-                <button className="btn btn-warning my-2 my-sm-0" type="submit">
-                  <i className="fa fa-search" />
-                </button>
-              </form> */}
+
+              {!Auth.loggedIn? (
+                <NavItem>
+                  <NavLink to="/register" className="nav-link">
+                    Register
+                  </NavLink>
+                </NavItem>
+              ) : null}
             </Nav>
           </Collapse>
         </Navbar>
       </div>
     );
   }
+
+  handleLogout(){
+    Auth.logout()
+    // this.props.history.push('/login');
+    window.location.reload()
+ }
 }
+
+export default withRouter(withAuth(Menus));

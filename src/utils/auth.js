@@ -1,23 +1,14 @@
 import React from "react";
 import { Redirect, Route } from "react-router-dom";
-
-// Determines whether a user is authenticated or not
-export const Auth = {
-  isAuthenticated: false,
-  authenticate() {
-    this.isAuthenticated = true;
-  },
-  signout() {
-    this.isAuthenticated = false;
-  }
-};
+import AuthService from './../components/AuthService';
+export const Auth = new AuthService();
 
 // Protects private routes ro only bre accessed by authenticated users
 export const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
     {...rest}
     render={props =>
-      Auth.isAuthenticated ? (
+      Auth.loggedIn ? (
         <Component {...props} />
       ) : (
         <Redirect
