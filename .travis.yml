@@ -4,11 +4,15 @@ node_js:
 cache:
   directories:
   - node_modules
+before_script:
+  - node --version
+  - rm -rf ./node_modules package-lock.json
+  - npm install --no-optional
 script:
   - npm test --coverage
   - npm run build
 after_script: # Upload coverage reports 
-  - COVERALLS_REPO_TOKEN=$coveralls_repo_token npm run coverage
+  - COVERALLS_REPO_TOKEN=$coveralls_repo_token
 deploy:
   provider: pages
   skip_cleanup: true

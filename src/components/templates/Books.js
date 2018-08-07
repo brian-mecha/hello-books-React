@@ -65,9 +65,9 @@ class Books extends React.Component {
         <div className="block-header">
           {Auth.loggedIn ? (
             <div className="btn-toolbar float-right">
-              {/* <Link to="book/add" className="btn btn-warning card-link">
+              <Link to="book/add" className="btn btn-warning card-link">
                 <i className="fa fa-plus" /> Add Book
-              </Link> */}
+              </Link>
             </div>
           ) : null}
 
