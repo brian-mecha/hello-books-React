@@ -1,6 +1,7 @@
 import React from "react";
 import Menus from "../Menus";
 import { addBook } from "../../utils/api";
+import swal from 'sweetalert';
 
 export default class AddBook extends React.Component {
   constructor(props) {
@@ -28,6 +29,7 @@ export default class AddBook extends React.Component {
       .then(rep => {
         if (rep.status === "success") {
           this.setState({ error: false, message: rep.data.message });
+          swal(rep.data.message)
           this.props.history.push("/");
         } else {
           this.setState({ error: true, message: rep.data.message });

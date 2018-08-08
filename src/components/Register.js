@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { RegisterUser } from "../utils/api";
+import swal from 'sweetalert';
 
 class Register extends React.Component {
   //  Initializes empty states username, email and password
@@ -27,6 +28,7 @@ class Register extends React.Component {
       .then(rep => {
         if (rep.status === "success") {
           this.setState({ error: false, message: rep.data.message });
+          swal(rep.data.message)
           this.props.history.push("/login");
         } else {
           this.setState({ error: true, message: rep.data.message });

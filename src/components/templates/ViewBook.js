@@ -1,11 +1,10 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import Menus from "../Menus";
 import { getSingleBookData, borrowBook } from "../../utils/api";
 import { Auth } from "../../utils/auth";
 
 export default class ViewBook extends React.Component {
-//  Initializes an empty book state
+  //  Initializes an empty book state
   constructor() {
     super();
     this.state = { book: [] };
@@ -27,7 +26,6 @@ export default class ViewBook extends React.Component {
   borrow = id => {
     borrowBook(id)
       .then(rep => {
-        this.setState({ error: false, message: rep.message });
         this.props.history.push("/profile");
       })
       .catch(err => {
@@ -37,20 +35,6 @@ export default class ViewBook extends React.Component {
 
   render() {
     const { book } = this.state;
-
-    // Allows only allowed users to see borrow a book
-    var Button;
-    if (Auth.loggedIn) {
-      Button = (
-        <Link
-          to={"/users/book/" + book.book_id}
-          className="btn btn-warning card-link"
-          onClick={() => this.borrow(book.book_id)}
-        >
-          Borrow book <i className="fa fa-angle-right" />
-        </Link>
-      );
-    } 
 
     // Displays the book with the specifed ID
     return (
@@ -89,11 +73,15 @@ export default class ViewBook extends React.Component {
                     </tbody>
                   </table>
 
-                  {book.availability ? (
-                    <div>
-                    {Button}
-                    </div>
-                 ) : null }
+                  {book.availability && Auth.loggedIn ? (
+                      <button
+                        // to={"/users/book/" + book.book_id}
+                        className="btn btn-warning card-link"
+                        onClick={() => this.borrow(book.book_id)}
+                      >
+                        Borrow book <i className="fa fa-angle-right" />
+                      </button>
+                  ) : null}
                 </div>
               </div>
             </div>

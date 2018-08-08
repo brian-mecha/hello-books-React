@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { getBooksData, deleteBook } from "../../utils/api";
 import { Auth } from "../../utils/auth";
-import { BookItem } from "../BookItem";
+import swal from 'sweetalert';
 
 function searchingFor(term) {
   return function(b) {
@@ -49,7 +49,8 @@ class Books extends React.Component {
     deleteBook(id)
       .then(rep => {
         this.setState({ error: false, message: rep.message });
-        // this.props.history.push("/");
+        swal(rep.message)
+        this.getAllBooks();
       })
       .catch(err => {
         this.setState({ error: true, message: err.message });
@@ -59,6 +60,38 @@ class Books extends React.Component {
   // Renders all the books from the API
   render() {
     const { books, term } = this.state;
+
+    if (!books) {
+      return null;
+    }
+
+    if (!books.length) {
+      return (
+        <div>
+          <div className="container">
+        <div className="block-header">
+          {Auth.loggedIn ? (
+            <div className="btn-toolbar float-right">
+              <Link to="book/add" className="btn btn-warning card-link">
+                <i className="fa fa-plus" /> Add Book
+              </Link>
+            </div>
+          ) : null}
+
+          <h2 className="mt-5">Books</h2>
+        </div>
+            <hr />
+            <br />
+
+            <div className="card text-center">
+              <div className="card-body">
+                <h5 className="card-title">No Books are available in the system currently.</h5>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    } else {
 
     return (
       <div className="container">
@@ -85,14 +118,6 @@ class Books extends React.Component {
             }
             role="alert"
           >
-            <button
-              type="button"
-              className="close"
-              data-dismiss="alert"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">&times;</span>
-            </button>
             {this.state.message}
           </div>
         )}
@@ -108,50 +133,47 @@ class Books extends React.Component {
         </div>
         <div className="card-columns">
           {books.filter(searchingFor(term)).map((book, index) => (
-            <BookItem book={book} key={index} />
-            // <div className="card" key={index}>
-            //   <div className="card-body">
-            //     <div className="row">
-            //       <div className="col-md-12">
-            //         <h5 className="card-title">{book.title}</h5>
-            //         <span className="author">by {book.author}</span>
-            //         <p className="card-text">
-            //           {book.description.substr(0, 120)}
-            //         </p>
-            //         <Link
-            //           to={"book/view/" + book.book_id}
-            //           className="card-link text-warning"
-            //         >
-            //           Details <i className="fa fa-angle-right" />
-            //         </Link>
-            //         {Auth.loggedIn ? (
-            //           <div className="float-right">
-            //             <Link
-            //               to={"book/edit/" + book.book_id}
-            //               className="btn btn-info card-link"
-            //             >
-            //               {" "}
-            //               <i className="fa fa-edit" /> Edit
-            //             </Link>
-
-            //             <Link
-            //               to="/"
-            //               className="btn btn-danger bt-sm card-link"
-            //               onClick={() => this.delete(book.book_id)}
-            //             >
-            //               {" "}
-            //               <i className="fa fa-trash" />
-            //             </Link>
-            //           </div>
-            //         ) : null}
-            //       </div>
-            //     </div>
-            //   </div>
-            // </div>
+            <div className="card" key={index}>
+            <div className="card-body">
+              <div className="row">
+                <div className="col-md-12">
+                  <h5 className="card-title">{book.title}</h5>
+                  <span className="author">by {book.author}</span>
+                  <p className="card-text">{book.description.substr(0, 120)}</p>
+                  <Link
+                    to={"book/view/" + book.book_id}
+                    className="card-link text-warning"
+                  >
+                    Details <i className="fa fa-angle-right" />
+                  </Link>
+                  {Auth.loggedIn ? (
+                    <div className="float-right">
+                      <Link
+                        to={"book/edit/" + book.book_id}
+                        className="btn btn-info card-link"
+                      >
+                        {" "}
+                        <i className="fa fa-edit" /> Edit
+                      </Link>
+        
+                      <button
+                        className="btn btn-danger bt-sm card-link"
+                        onClick={() => this.delete(book.book_id)}
+                      >
+                        {" "}
+                        <i className="fa fa-trash" />
+                      </button>
+                    </div>
+                  ) : null}
+                </div>
+              </div>
+            </div>
+          </div>
           ))}
         </div>
       </div>
     );
+  }
   }
 }
 

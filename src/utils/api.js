@@ -3,12 +3,14 @@ import axios from 'axios';
 
 // The base URL for all requests to the API
 const BASE_URL = process.env.REACT_APP_base_url;
+axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('id_token');
+axios.defaults.headers.post['Content-Type'] = 'application/json';
 
 // Request header for all requests to the API
 const RequestHeader = {
-  'Content-Type': 'application/json',
+  // 'Content-Type': 'application/json',
   Accept: 'application/json',
-  Authorization: 'Bearer ' + localStorage.getItem('id_token')
+  // Authorization: 'Bearer ' + localStorage.getItem('id_token')
 };
 
 // Gets all books from the API
@@ -116,7 +118,7 @@ function borrowBook(id) {
     })
     .then(response => response.data)
     .catch(error => {
-      console.log(error.response);
+      // console.log(error.response);
       return error.response.data;
     });
 }
@@ -129,7 +131,7 @@ function returnBook(id) {
     })
     .then(response => response.data)
     .catch(error => {
-      console.log(error.response);
+      // console.log(error.response);
       return error.response.data;
     });
 }
