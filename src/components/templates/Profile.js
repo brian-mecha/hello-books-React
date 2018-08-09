@@ -46,7 +46,7 @@ export default class Profile extends React.Component {
       return (
         <div>
           <Menus />
-          <div className="container">
+          <div className="container profile">
             <div className="col-lg-12 text-left">
               <div className="btn-toolbar float-right">
                 <Link to="/history" className="btn btn-warning card-link">

@@ -7,7 +7,7 @@ import Menus from './Menus';
 class Home extends React.Component {
     render() {
         return (
-            <div>
+            <div id="home">
                 <Menus/>
                 <Header/>
                 <Books/>

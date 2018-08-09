@@ -1,6 +1,9 @@
 import React from "react";
 import { shallow, mount, render } from "enzyme";
 import Login from "../components/Login";
+import moxios from 'moxios';
+import sinon from 'sinon';
+import { BrowserRouter } from "react-router-dom";
 
 // describe what we are testing
 describe("Login Component", () => {
@@ -34,6 +37,29 @@ describe("Login Component", () => {
         .simulate("change", { target: { name: "password", value: "cats" } });
 
       expect(wrapper.state("password")).toEqual("cats");
+    });
+  });
+
+  xdescribe("Book submits form to login a user", () => {
+    beforeEach(() => {
+      moxios.install();
+    });
+
+    afterEach(() => {
+      moxios.uninstall();
+    });
+    it("handles submit when logging in a user", () => {
+      let handleFormSubmit = sinon.spy();
+      let wrapper = mount(
+        <BrowserRouter>
+          <Login onSubmit={handleFormSubmit}  />
+        </BrowserRouter>
+      );
+      // wrapper.find("form").simulate("submit");
+      wrapper.find("form").simulate("submit", {
+        target: { name: "email", value: "test@gmail.com" }
+      });
+      moxios.wait(() => {});
     });
   });
 });

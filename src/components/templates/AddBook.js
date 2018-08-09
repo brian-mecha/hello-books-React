@@ -66,14 +66,6 @@ export default class AddBook extends React.Component {
                     }
                     role="alert"
                   >
-                    <button
-                      type="button"
-                      className="close"
-                      data-dismiss="alert"
-                      aria-label="Close"
-                    >
-                      <span aria-hidden="true">&times;</span>
-                    </button>
                     {this.state.message}
                   </div>
                 )}

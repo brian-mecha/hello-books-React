@@ -74,7 +74,6 @@ function addBook(bookData) {
       return ({status:'success',data: response.data})
     })
     .catch(error => {
-      console.log(error.response);
       return {status:'error',data:error.response.data};
     });
 }

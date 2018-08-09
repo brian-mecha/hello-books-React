@@ -52,7 +52,7 @@ class BorrowingHistory extends React.Component {
       return (
         <div>
           <Menus />
-          <div className="container">
+          <div className="container history">
             <div className="col-lg-12 text-left">
               <h2 className="mt-5">Borrowing History</h2>
             </div>

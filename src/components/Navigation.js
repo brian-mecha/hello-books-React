@@ -41,7 +41,7 @@ class Navigation extends React.Component {
     
     // Handles all the routes in the application
     return (
-      <div>
+      <div id="nav">
         <Router>
           <Switch>
             <Route exact path="/" component={Home} />

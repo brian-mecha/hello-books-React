@@ -23,13 +23,6 @@ class Login extends React.Component {
     }
   }
 
-  // Handles any change from any of the input fields
-  // handleChange = e => {
-  //   let state = {};
-  //   state[e.target.name] = e.target.value;
-  //   this.setState(state);
-  // };
-
   // Authenticates and logs in the user via the API
   login = e => {
     e.preventDefault();

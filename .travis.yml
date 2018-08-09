@@ -1,20 +1,10 @@
 language: node_js
+sudo: false
 node_js:
-  - "stable"
-cache:
-  directories:
-  - node_modules
-before_script:
-  - node --version
-  - rm -rf ./node_modules package-lock.json
-  - npm install --no-optional
+  - "node"
+install:
+  - npm install
 script:
-  - npm test --coverage
-  - npm run build
-deploy:
-  provider: pages
-  skip_cleanup: true
-  github_token: $github_token
-  local_dir: build
-  on:
-    branch: develop
+  - npm test -- --coverage --coverageReporters=text-lcov | coveralls
+after_success:
+  - npm run coveralls
