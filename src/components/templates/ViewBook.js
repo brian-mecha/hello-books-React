@@ -40,7 +40,7 @@ export default class ViewBook extends React.Component {
     return (
       <div>
         <Menus />
-        <div className="container">
+        <div className="container book_details">
           <br />
 
           <div className="card">

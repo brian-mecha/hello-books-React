@@ -11,6 +11,7 @@ import Navigation from "../components/Navigation";
 import Home from "../components/Home";
 import Profile from "../components/templates/Profile";
 import BorrowingHistory from "../components/BorrowingHistory";
+import ViewBook from "../components/templates/ViewBook";
 
 describe("Books Component", () => {
   // Tests whether the Navbar is rendered
@@ -251,24 +252,25 @@ describe("Books Component", () => {
     });
   });
 
-  // test("testing with headers", done => {
-  //   var path = require("path");
-  //   var lib = path.join(
-  //     path.dirname(require.resolve("axios")),
-  //     "lib/adapters/http"
-  //   );
-  //   var http = require(lib);
-  //   axios
-  //     .get("http://127.0.0.1:5000/api/v2/books", {
-  //       adapter: http,
-  //       headers: {
-  //         Authorization: "Basic YWRtaW46bHVveGlueGlhbjkx"
-  //       }
-  //     })
-  //     .then(res => {
-  //       expect(res.status).toBe(200);
-  //       done();
-  //     })
-  //     .catch(done.fail);
-  // });
+  describe("Book details", () => {
+    beforeEach(() => {
+      moxios.install();
+    });
+
+    afterEach(() => {
+      moxios.uninstall();
+    });
+    it("should render the user Borrowing history", () => {
+      const bookID = {
+        params: {
+          id: 1
+        }
+      };
+      expect(
+        shallow(<ViewBook match={bookID}/>)
+          .find("#book_details")
+          .exists()
+      )
+    });
+  });
 });
