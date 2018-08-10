@@ -1,9 +1,9 @@
 import React from "react";
-import { shallow, mount, render } from "enzyme";
+import { shallow, mount } from "enzyme";
 import sinon from "sinon";
-import Register from "../components/Register";
 import moxios from "moxios";
 import { BrowserRouter } from "react-router-dom";
+import Register from "../components/Register";
 
 // describe what we are testing
 describe("Regsiter Component", () => {
@@ -67,7 +67,7 @@ describe("Regsiter Component", () => {
         </BrowserRouter>
       );
       wrapper.find("form").simulate("submit");
-      moxios.wait(() => {});
+      moxios.wait();
     });
   });
 });

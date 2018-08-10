@@ -1,23 +1,29 @@
 import React from "react";
 import { Redirect, Route } from "react-router-dom";
-import AuthService from './../components/AuthService';
+import PropTypes from 'prop-types';
+import AuthService from "../components/AuthService";
+
 export const Auth = new AuthService();
 
 // Protects private routes ro only bre accessed by authenticated users
 export const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
     {...rest}
-    render={props =>
-      Auth.loggedIn ? (
-        <Component {...props} />
-      ) : (
-        <Redirect
-          to={{
-            pathname: "/login",
-            state: { from: props.location }
-          }}
-        />
-      )
+    render={props => (Auth.loggedIn ? (
+      <Component {...props} />
+    ) : (
+      <Redirect
+        to={{
+          pathname: "/login",
+          state: { from: props.location }
+        }}
+      />
+    ))
     }
   />
 );
+
+PrivateRoute.propTypes = {
+  component: PropTypes.func,
+  location: PropTypes.object
+};

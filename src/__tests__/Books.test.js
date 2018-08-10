@@ -1,12 +1,12 @@
 import React from "react";
-import { shallow, mount, render } from "enzyme";
-import Books from "../components/templates/Books";
-import Header from "../components/Header";
+import { shallow, mount } from "enzyme";
 import sinon from "sinon";
 import moxios from "moxios";
+import { BrowserRouter } from "react-router-dom";
+import Books from "../components/templates/Books";
+import Header from "../components/Header";
 import AddBook from "../components/templates/AddBook";
 import EditBook from "../components/templates/EditBook";
-import { BrowserRouter } from "react-router-dom";
 import Navigation from "../components/Navigation";
 import Home from "../components/Home";
 import Profile from "../components/templates/Profile";
@@ -51,7 +51,6 @@ describe("Books Component", () => {
       moxios.uninstall();
     });
     it("searches all the books", () => {
-      let term = sinon.spy();
       let searchHandler = sinon.spy();
       let wrapper = mount(
         <BrowserRouter>
@@ -131,7 +130,7 @@ describe("Books Component", () => {
         </BrowserRouter>
       );
       wrapper.find("form").simulate("submit");
-      moxios.wait(() => {});
+      moxios.wait();
     });
   });
 
@@ -186,8 +185,6 @@ describe("Books Component", () => {
       wrapper.find("#author").simulate("change", {
         target: { name: "author", value: "Book author" }
       });
-      // expect(wrapper.find("#author")).toMatch("Book author");
-      // moxios.wait();
     });
   });
 
@@ -248,7 +245,7 @@ describe("Books Component", () => {
         shallow(<BorrowingHistory />)
           .find("#history")
           .exists()
-      )
+      );
     });
   });
 
@@ -270,7 +267,7 @@ describe("Books Component", () => {
         shallow(<ViewBook match={bookID}/>)
           .find("#book_details")
           .exists()
-      )
+      );
     });
   });
 });

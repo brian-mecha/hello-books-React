@@ -9,15 +9,15 @@ class BorrowingHistory extends React.Component {
     this.state = { history: [] };
   }
 
+  componentDidMount() {
+    this.getBorrowingHistory();
+  }
+
   // Gets all the borrowing history of the logged in user from the API
   getBorrowingHistory() {
     borrowingHistory().then(history => {
       this.setState({ history });
     });
-  }
-
-  componentDidMount() {
-    this.getBorrowingHistory();
   }
 
   // Renders the Borrowing history of the logged in user

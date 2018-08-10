@@ -1,26 +1,49 @@
 import React from "react";
+import PropTypes from "prop-types";
+import swal from 'sweetalert';
 import { Link } from "react-router-dom";
 import { LoginUser } from "../utils/api";
 import AuthService from "./AuthService";
 import { Auth } from "../utils/auth";
 
-class Login extends React.Component {
+
+export default class Login extends React.Component {
   //  Initializes empty states email and password
   constructor(props) {
     super(props);
     this.handleChange = this.handleChange.bind(this);
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
     this.Auth = new AuthService();
-    // this.state = {
-    //   email: "",
-    //   password: ""
-    // };
+    this.state = {
+      isLoading: false
+    };
   }
 
   componentWillMount() {
     if (this.Auth.loggedIn()) {
       this.props.history.replace("/");
     }
+  }
+
+  handleChange(e) {
+    this.setState({
+      [e.target.name]: e.target.value
+    });
+  }
+
+  handleFormSubmit(e) {
+    this.setState({ isLoading: true });
+    e.preventDefault();
+
+    this.Auth.login(this.state.email, this.state.password)
+      .then(res => {
+        swal(res.message);
+        this.props.history.replace("/");
+      })
+      .catch(err => {
+        this.setState({ isLoading: false });
+        alert(err);
+      });
   }
 
   // Authenticates and logs in the user via the API
@@ -108,7 +131,7 @@ class Login extends React.Component {
                     </div>
 
                     <div className="form-group no-margin">
-                      <button type="submit" className="btn btn-success">
+                      <button type="submit" className="btn btn-success" disabled={this.state.isLoading}>
                         Login
                       </button>
                     </div>
@@ -129,24 +152,8 @@ class Login extends React.Component {
       </section>
     );
   }
-  handleChange(e) {
-    this.setState({
-      [e.target.name]: e.target.value
-    });
-  }
-
-  handleFormSubmit(e){
-    e.preventDefault();
-  
-    this.Auth.login(this.state.email,this.state.password)
-        .then(res =>{
-          //  this.props.history.replace('/');
-           window.location.reload()
-        })
-        .catch(err =>{
-            alert(err);
-        })
-}
 }
 
-export default Login;
+Login.propTypes = {
+  history: PropTypes.object
+};

@@ -5,15 +5,15 @@ import Menus from './Menus';
 
 // Homepage
 class Home extends React.Component {
-    render() {
-        return (
-            <div id="home">
-                <Menus/>
-                <Header/>
-                <Books/>
-            </div>
-        )
-    }
+  render() {
+    return (
+      <div id="home">
+        <Menus/>
+        <Header/>
+        <Books/>
+      </div>
+    );
+  }
 }
 
-export default Home
+export default Home;

@@ -1,40 +1,61 @@
 import React from "react";
+import PropTypes from "prop-types";
+import { BeatLoader } from "react-spinners";
 import Menus from "../Menus";
 import { getSingleBookData, borrowBook } from "../../utils/api";
 import { Auth } from "../../utils/auth";
+import PageNotFound from "../PageNotFound";
 
 export default class ViewBook extends React.Component {
   //  Initializes an empty book state
   constructor() {
     super();
-    this.state = { book: [] };
+    this.state = {
+      book: [],
+      isBorrowing: false,
+      isFound: true
+    };
   }
 
   // Gets a book with the specified ID from the API
-  getOneBook(id) {
-    getSingleBookData(id).then(book => {
-      this.setState({ book });
-    });
-  }
 
   componentDidMount() {
     const bookID = this.props.match.params.id;
     this.getOneBook(bookID);
   }
 
+  getOneBook(id) {
+    getSingleBookData(id).then(book => {
+      this.setState({ book });
+      if (this.state.book.status) {
+        this.setState({ isFound: false });
+      }
+    });
+  }
+
   // Allows User to borrow a book
   borrow = id => {
+    this.setState({ isBorrowing: true });
     borrowBook(id)
       .then(rep => {
+        // this.setState({ isBorrowing: true });
         this.props.history.push("/profile");
       })
       .catch(err => {
+        this.setState({ isBorrowing: false });
         this.setState({ error: true, message: err.message });
       });
   };
 
   render() {
-    const { book } = this.state;
+    const { book, isBorrowing, isFound } = this.state;
+
+    if (isBorrowing) {
+      return <BeatLoader color={"#fec108"} />;
+    }
+    if (!isFound) {
+      return <PageNotFound />;
+    }
 
     // Displays the book with the specifed ID
     return (
@@ -74,13 +95,14 @@ export default class ViewBook extends React.Component {
                   </table>
 
                   {book.availability && Auth.loggedIn ? (
-                      <button
-                        // to={"/users/book/" + book.book_id}
-                        className="btn btn-warning card-link"
-                        onClick={() => this.borrow(book.book_id)}
-                      >
-                        Borrow book <i className="fa fa-angle-right" />
-                      </button>
+                    <button
+                      // to={"/users/book/" + book.book_id}
+                      className="btn btn-warning card-link"
+                      disabled={isBorrowing}
+                      onClick={() => this.borrow(book.book_id)}
+                    >
+                      Borrow book <i className="fa fa-angle-right" />
+                    </button>
                   ) : null}
                 </div>
               </div>
@@ -91,3 +113,8 @@ export default class ViewBook extends React.Component {
     );
   }
 }
+
+ViewBook.propTypes = {
+  match: PropTypes.object,
+  history: PropTypes.object
+};

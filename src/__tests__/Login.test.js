@@ -1,9 +1,9 @@
 import React from "react";
-import { shallow, mount, render } from "enzyme";
-import Login from "../components/Login";
+import { shallow, mount } from "enzyme";
 import moxios from 'moxios';
 import sinon from 'sinon';
 import { BrowserRouter } from "react-router-dom";
+import Login from "../components/Login";
 
 // describe what we are testing
 describe("Login Component", () => {
@@ -52,14 +52,14 @@ describe("Login Component", () => {
       let handleFormSubmit = sinon.spy();
       let wrapper = mount(
         <BrowserRouter>
-          <Login onSubmit={handleFormSubmit}  />
+          <Login onSubmit={handleFormSubmit} />
         </BrowserRouter>
       );
       // wrapper.find("form").simulate("submit");
       wrapper.find("form").simulate("submit", {
         target: { name: "email", value: "test@gmail.com" }
       });
-      moxios.wait(() => {});
+      moxios.wait();
     });
   });
 });

@@ -1,4 +1,5 @@
-import decode from 'jwt-decode';
+import decode from "jwt-decode";
+
 export default class AuthService {
   // Initializing important variables
   constructor(domain) {
@@ -17,10 +18,15 @@ export default class AuthService {
         password
       })
     }).then(res => {
-      console.log(res)
       this.setToken(res.access_token); // Setting the token in localStorage
+      this.setAdmin(res.isAdmin); //Gets admin status
       return Promise.resolve(res);
     });
+  }
+
+  ifAdmin() {
+    const AdminStatus = this.getAdmin();
+    return AdminStatus;
   }
 
   loggedIn() {
@@ -41,9 +47,9 @@ export default class AuthService {
     }
   }
 
-  setToken(access_token) {
+  setToken(accessToken) {
     // Saves user token to localStorage
-    localStorage.setItem("id_token", access_token);
+    localStorage.setItem("id_token", accessToken);
   }
 
   getToken() {
@@ -51,9 +57,20 @@ export default class AuthService {
     return localStorage.getItem("id_token");
   }
 
+  setAdmin(adminStatus) {
+    // Saves user token to localStorage
+    localStorage.setItem("is_admin", adminStatus);
+  }
+
+  getAdmin() {
+    // Retrieves the user token from localStorage
+    return localStorage.getItem("is_admin");
+  }
+
   logout() {
     // Clear user token and profile data from localStorage
     localStorage.removeItem("id_token");
+    localStorage.removeItem("is_admin");
   }
 
   getProfile() {
@@ -64,14 +81,13 @@ export default class AuthService {
   fetch(url, options) {
     // performs api calls sending the required authentication headers
     const headers = {
-      Accept: "application/json",
+      "Accept": "application/json",
       "Content-Type": "application/json"
     };
 
     // Setting Authorization header
-    // Authorization: Bearer xxxxxxx.xxxxxxxx.xxxxxx
     if (this.loggedIn()) {
-      headers["Authorization"] = "Bearer " + this.getToken();
+      headers["Authorization"] = `Bearer ${this.getToken()}`;
     }
 
     return fetch(url, {
@@ -90,7 +106,6 @@ export default class AuthService {
     } else {
       var error = new Error(response.statusText);
       error.response = response;
-      console.log(response)
       throw error;
     }
   }

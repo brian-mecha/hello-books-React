@@ -1,34 +1,38 @@
 // Handles all API requests
-import axios from 'axios';
+import axios from "axios";
 
 // The base URL for all requests to the API
 const BASE_URL = process.env.REACT_APP_base_url;
-axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('id_token');
-axios.defaults.headers.post['Content-Type'] = 'application/json';
+axios.defaults.headers.common["Authorization"] = `Bearer ${localStorage.getItem(
+  "id_token"
+)}`;
+axios.defaults.headers.post["Content-Type"] = "application/json";
 
 // Request header for all requests to the API
 const RequestHeader = {
   // 'Content-Type': 'application/json',
-  Accept: 'application/json',
+  Accept: "application/json"
   // Authorization: 'Bearer ' + localStorage.getItem('id_token')
 };
 
 // Gets all books from the API
 function getBooksData() {
   const url = `${BASE_URL}/books`;
-  return axios.get(url, {
-    headers: RequestHeader
-  }).then(response => response.data)
-  .catch(error => {
-    // console.log(error.response)
-    return error.response.data;
-  });
+  return axios
+    .get(url, {
+      headers: RequestHeader
+    })
+    .then(response => response.data)
+    .catch(error => error.response.data);
 }
 
 // Gets a book with the specified ID from the API
 function getSingleBookData(id) {
   const url = `${BASE_URL}/book/${id}`;
-  return axios.get(url).then(response => response.data);
+  return axios
+    .get(url)
+    .then(response => response.data)
+    .catch(error => ({ status: "error", data: error.response.data }));
 }
 
 // Validates and registers a user via the API
@@ -38,13 +42,8 @@ function RegisterUser(userData) {
     .post(url, userData, {
       headers: RequestHeader
     })
-    .then(response => {
-      return ({status:'success',data: response.data })
-    })
-    .catch(error => {
-      console.log(error.response);
-      return {status:'error',data:error.response.data};
-    });
+    .then(response => ({ status: "success", data: response.data }))
+    .catch(error => ({ status: "error", data: error.response.data }));
 }
 
 // Authenticates and logs in the user via the API
@@ -54,12 +53,10 @@ function LoginUser(userData) {
     .post(url, userData, {
       headers: RequestHeader
     })
-    .then(response => {
-      return ({status:'success',data: response.data})
-    })
+    .then(response => ({ status: "success", data: response.data }))
     .catch(error => {
       console.log(error.response);
-      return {status:'error',data:error.response.data};
+      return { status: "error", data: error.response.data };
     });
 }
 
@@ -70,12 +67,8 @@ function addBook(bookData) {
     .post(url, bookData, {
       headers: RequestHeader
     })
-    .then(response => {
-      return ({status:'success',data: response.data})
-    })
-    .catch(error => {
-      return {status:'error',data:error.response.data};
-    });
+    .then(response => ({ status: "success", data: response.data }))
+    .catch(error => ({ status: "error", data: error.response.data }));
 }
 
 // Edits a book with the specified ID via the API
@@ -85,12 +78,10 @@ function editBook(bookData, id) {
     .put(url, bookData, id, {
       headers: RequestHeader
     })
-    .then(response => {
-      return ({status:'success',data: response.data})
-    })
+    .then(response => ({ status: "success", data: response.data }))
     .catch(error => {
       console.log(error.response);
-      return {status:'error',data:error.response.data};
+      return { status: "error", data: error.response.data };
     });
 }
 
@@ -98,9 +89,13 @@ function editBook(bookData, id) {
 function deleteBook(id) {
   const url = `${BASE_URL}/book/${id}`;
   return axios
-    .delete(url, {id}, {
-      headers: RequestHeader
-    })
+    .delete(
+      url,
+      { id },
+      {
+        headers: RequestHeader
+      }
+    )
     .then(response => response.data)
     .catch(error => {
       console.log(error.response);
@@ -116,10 +111,7 @@ function borrowBook(id) {
       headers: RequestHeader
     })
     .then(response => response.data)
-    .catch(error => {
-      // console.log(error.response);
-      return error.response.data;
-    });
+    .catch(error => error.response.data);
 }
 
 function returnBook(id) {
@@ -129,10 +121,7 @@ function returnBook(id) {
       headers: RequestHeader
     })
     .then(response => response.data)
-    .catch(error => {
-      // console.log(error.response);
-      return error.response.data;
-    });
+    .catch(error => error.response.data);
 }
 
 // Gets the logged in user's borrowing history
@@ -162,26 +151,24 @@ function LogoutUser() {
     .post(url, {
       headers: RequestHeader
     })
-    .then(response => {
-      return ({status:'success',data: response.data})
-    })
+    .then(response => ({ status: "success", data: response.data }))
     .catch(error => {
       console.log(error.response);
-      return {status:'error',data:error.response.data};
+      return { status: "error", data: error.response.data };
     });
 }
 
 export {
-  getBooksData, 
-  getSingleBookData, 
-  LoginUser, 
-  RegisterUser, 
-  addBook, 
-  borrowingHistory, 
-  unreturnedBooks, 
-  deleteBook, 
+  getBooksData,
+  getSingleBookData,
+  LoginUser,
+  RegisterUser,
+  addBook,
+  borrowingHistory,
+  unreturnedBooks,
+  deleteBook,
   borrowBook,
   returnBook,
   LogoutUser,
-  editBook,
+  editBook
 };

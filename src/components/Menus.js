@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import {
   Collapse,
   Navbar,
@@ -21,13 +22,19 @@ class Menus extends React.Component {
       isOpen: false
     };
   }
+
   toggle() {
     this.setState({
       isOpen: !this.state.isOpen
     });
   }
 
-  // Logouts the logged in user via the API
+  handleLogout() {
+    Auth.logout();
+    window.location.reload();
+  }
+
+  // Logouts the logged in user
 
   logout = e => {
     e.preventDefault();
@@ -95,7 +102,7 @@ class Menus extends React.Component {
                 </NavItem>
               )}
 
-              {!Auth.loggedIn? (
+              {!Auth.loggedIn ? (
                 <NavItem>
                   <NavLink to="/register" className="nav-link">
                     Register
@@ -108,12 +115,10 @@ class Menus extends React.Component {
       </div>
     );
   }
-
-  handleLogout(){
-    Auth.logout()
-    // this.props.history.push('/login');
-    window.location.reload()
- }
 }
 
 export default withRouter(withAuth(Menus));
+
+Menus.propTypes = {
+  history: PropTypes.object
+};

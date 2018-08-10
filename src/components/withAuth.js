@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import AuthService from "./AuthService";
 
 export default function withAuth(AuthComponent) {
@@ -29,14 +30,17 @@ export default function withAuth(AuthComponent) {
     }
 
     render() {
-        if (this.state.user) {
-            return (
-                <AuthComponent history={this.props.history} user={this.state.user} />
-            )
-        }
-        else {
-            return null
-        }
+      if (this.state.user) {
+        return (
+          <AuthComponent history={this.props.history} user={this.state.user} />
+        );
+      } else {
+        return null;
+      }
     }
   };
 }
+
+withAuth.propTypes = {
+  history: PropTypes.object
+};

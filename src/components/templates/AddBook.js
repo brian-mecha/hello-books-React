@@ -1,7 +1,8 @@
 import React from "react";
+import PropTypes from "prop-types";
+import swal from 'sweetalert';
 import Menus from "../Menus";
 import { addBook } from "../../utils/api";
-import swal from 'sweetalert';
 
 export default class AddBook extends React.Component {
   constructor(props) {
@@ -29,7 +30,7 @@ export default class AddBook extends React.Component {
       .then(rep => {
         if (rep.status === "success") {
           this.setState({ error: false, message: rep.data.message });
-          swal(rep.data.message)
+          swal(rep.data.message);
           this.props.history.push("/");
         } else {
           this.setState({ error: true, message: rep.data.message });
@@ -60,9 +61,9 @@ export default class AddBook extends React.Component {
                 {this.state.message && (
                   <div
                     className={
-                      this.state.error
-                        ? "alert alert-danger alert-dismissible fade show"
-                        : "alert alert-success alert-dismissible fade show"
+                      this.state.error ?
+                        "alert alert-danger alert-dismissible fade show" :
+                        "alert alert-success alert-dismissible fade show"
                     }
                     role="alert"
                   >
@@ -131,3 +132,7 @@ export default class AddBook extends React.Component {
     );
   }
 }
+
+AddBook.propTypes = {
+  history: PropTypes.object
+};

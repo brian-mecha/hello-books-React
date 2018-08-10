@@ -1,7 +1,8 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-import { RegisterUser } from "../utils/api";
 import swal from 'sweetalert';
+import { RegisterUser } from "../utils/api";
 
 class Register extends React.Component {
   //  Initializes empty states username, email and password
@@ -10,7 +11,8 @@ class Register extends React.Component {
     this.state = {
       username: "",
       email: "",
-      password: ""
+      password: "",
+      isLoading: false
     };
   }
 
@@ -24,18 +26,21 @@ class Register extends React.Component {
   // Validates and registers the user via the API
   register = e => {
     e.preventDefault();
+    this.setState({ isLoading: true });
     RegisterUser(this.state)
       .then(rep => {
         if (rep.status === "success") {
           this.setState({ error: false, message: rep.data.message });
-          swal(rep.data.message)
+          swal(rep.data.message);
           this.props.history.push("/login");
         } else {
           this.setState({ error: true, message: rep.data.message });
+          this.setState({ isLoading: false });
         }
       })
       .catch(err => {
         this.setState({ error: true, message: err.data.message });
+        this.setState({ isLoading: false });
       });
   };
 
@@ -58,20 +63,12 @@ class Register extends React.Component {
                   {this.state.message && (
                     <div
                       className={
-                        this.state.error
-                          ? "alert alert-danger alert-dismissible fade show"
-                          : "alert alert-success alert-dismissible fade show"
+                        this.state.error ?
+                          "alert alert-danger alert-dismissible fade show" :
+                          "alert alert-success alert-dismissible fade show"
                       }
                       role="alert"
                     >
-                      <button
-                        type="button"
-                        className="close"
-                        data-dismiss="alert"
-                        aria-label="Close"
-                      >
-                        <span aria-hidden="true">&times;</span>
-                      </button>
                       {this.state.message}
                     </div>
                   )}
@@ -118,7 +115,7 @@ class Register extends React.Component {
                     </div>
 
                     <div className="form-group no-margin">
-                      <button type="submit" className="btn btn-info">
+                      <button type="submit" className="btn btn-info" disabled={this.state.isLoading}>
                         Register
                       </button>
                     </div>
@@ -140,3 +137,7 @@ class Register extends React.Component {
 }
 
 export default Register;
+
+Register.propTypes = {
+  history: PropTypes.object
+};

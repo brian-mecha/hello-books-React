@@ -1,5 +1,7 @@
 import React from "react";
-import { Switch, Link, BrowserRouter as Router, Route } from "react-router-dom";
+import {
+  Switch, BrowserRouter as Router, Route
+} from "react-router-dom";
 import Login from "./Login";
 import Home from "./Home";
 import BorrowingHistory from "./BorrowingHistory";
@@ -9,36 +11,10 @@ import AddBook from "./templates/AddBook";
 import EditBook from "./templates/EditBook";
 import ViewBook from "./templates/ViewBook";
 import { PrivateRoute } from "../utils/auth";
+import PageNotFound from "./PageNotFound";
 
 class Navigation extends React.Component {
   render() {
-    
-    // Handles 404 requests
-    const NoMatch = ({ location }) => (
-      <div className="container">
-        <div className="row">
-          <div className="col-md-12">
-            <div className="error-template">
-              <br />
-              <br />
-              <br />
-              <h1>Oops!</h1>
-              <h2>Page Not Found</h2>
-              <div className="error-details">
-                The requested page for <code>{location.pathname}</code> was not
-                found!
-              </div>
-              <div className="error-actions">
-                <Link to="/" className="btn btn-info btn-lg">
-                <i className="fa fa-home" /> Back to Homepage
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-    
     // Handles all the routes in the application
     return (
       <div id="nav">
@@ -52,7 +28,7 @@ class Navigation extends React.Component {
             <PrivateRoute path="/book/add" component={AddBook} />
             <PrivateRoute path="/book/edit/:id" component={EditBook} />
             <Route path="/book/view/:id" component={ViewBook} />
-            <Route component={NoMatch} />
+            <Route component={PageNotFound} />
           </Switch>
         </Router>
       </div>

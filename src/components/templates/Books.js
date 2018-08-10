@@ -1,11 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import swal from "sweetalert";
 import { getBooksData, deleteBook } from "../../utils/api";
 import { Auth } from "../../utils/auth";
-import swal from 'sweetalert';
 
 function searchingFor(term) {
-  return function(b) {
+  return function (b) {
     return (
       b.title.toLowerCase().includes(term.toLowerCase()) ||
       b.author.toLowerCase().includes(term.toLowerCase()) ||
@@ -28,6 +28,10 @@ class Books extends React.Component {
     this.searchHandler = this.searchHandler.bind(this);
   }
 
+  componentDidMount() {
+    this.getAllBooks();
+  }
+
   // Handles the search functionality on each key stroke
   searchHandler(event) {
     this.setState({ term: event.target.value });
@@ -40,16 +44,12 @@ class Books extends React.Component {
     });
   }
 
-  componentDidMount() {
-    this.getAllBooks();
-  }
-
   // Deletes the selected book
   delete = id => {
     deleteBook(id)
       .then(rep => {
         this.setState({ error: false, message: rep.message });
-        swal(rep.message)
+        swal(rep.message);
         this.getAllBooks();
       })
       .catch(err => {
@@ -69,111 +69,114 @@ class Books extends React.Component {
       return (
         <div>
           <div className="container">
-        <div className="block-header">
-          {Auth.loggedIn ? (
-            <div className="btn-toolbar float-right">
-              <Link to="book/add" className="btn btn-warning card-link">
-                <i className="fa fa-plus" /> Add Book
-              </Link>
-            </div>
-          ) : null}
+            <div className="block-header">
+              {Auth.checkIfAdmin === true ? (
+                <div className="btn-toolbar float-right">
+                  <Link to="book/add" className="btn btn-warning card-link">
+                    <i className="fa fa-plus" /> Add Book
+                  </Link>
+                </div>
+              ) : null}
 
-          <h2 className="mt-5">Books</h2>
-        </div>
+              <h2 className="mt-5">Books</h2>
+            </div>
             <hr />
             <br />
 
             <div className="card text-center">
               <div className="card-body">
-                <h5 className="card-title">No Books are available in the system currently.</h5>
+                <h5 className="card-title">
+                  No Books are available in the system currently.
+                </h5>
               </div>
             </div>
           </div>
         </div>
       );
     } else {
+      return (
+        <div className="container">
+          <div className="block-header">
+            {Auth.ifAdmin() === "true" ? (
+              <div className="btn-toolbar float-right">
+                <Link to="book/add" className="btn btn-warning card-link">
+                  <i className="fa fa-plus" /> Add Book
+                </Link>
+              </div>
+            ) : null}
 
-    return (
-      <div className="container">
-        <div className="block-header">
-          {Auth.loggedIn ? (
-            <div className="btn-toolbar float-right">
-              <Link to="book/add" className="btn btn-warning card-link">
-                <i className="fa fa-plus" /> Add Book
-              </Link>
-            </div>
-          ) : null}
-
-          <h2 className="mt-5">Books</h2>
-        </div>
-
-        <hr />
-        <br />
-        {this.state.message && (
-          <div
-            className={
-              this.state.error
-                ? "alert alert-danger alert-dismissible fade show"
-                : "alert alert-success alert-dismissible fade show"
-            }
-            role="alert"
-          >
-            {this.state.message}
+            <h2 className="mt-5">Books</h2>
           </div>
-        )}
 
-        <div className="input-group mb-4">
-          <input
-            id="searchpoint"
-            type="text"
-            className="form-control"
-            placeholder="Search Book..."
-            onChange={this.searchHandler}
-          />
-        </div>
-        <div className="card-columns">
-          {books.filter(searchingFor(term)).map((book, index) => (
-            <div className="card" key={index}>
-            <div className="card-body">
-              <div className="row">
-                <div className="col-md-12">
-                  <h5 className="card-title">{book.title}</h5>
-                  <span className="author">by {book.author}</span>
-                  <p className="card-text">{book.description.substr(0, 120)}</p>
-                  <Link
-                    to={"book/view/" + book.book_id}
-                    className="card-link text-warning"
-                  >
-                    Details <i className="fa fa-angle-right" />
-                  </Link>
-                  {Auth.loggedIn ? (
-                    <div className="float-right">
+          <hr />
+          <br />
+          {this.state.message && (
+            <div
+              className={
+                this.state.error ?
+                  "alert alert-danger alert-dismissible fade show" :
+                  "alert alert-success alert-dismissible fade show"
+              }
+              role="alert"
+            >
+              {this.state.message}
+            </div>
+          )}
+
+          <div className="input-group mb-4">
+            <input
+              id="searchpoint"
+              type="text"
+              className="form-control"
+              placeholder="Search Book..."
+              onChange={this.searchHandler}
+            />
+          </div>
+          <div className="card-columns">
+            {books.filter(searchingFor(term)).map((book, index) => (
+              <div className="card" key={index}>
+                <div className="card-body">
+                  <div className="row">
+                    <div className="col-md-12">
+                      <h5 className="card-title">{book.title}</h5>
+                      <span className="author">by {book.author}</span>
+                      <p className="card-text">
+                        {book.description.substr(0, 120)}
+                      </p>
                       <Link
-                        to={"book/edit/" + book.book_id}
-                        className="btn btn-info card-link"
+                        to={`book/view/${book.book_id}`}
+                        className="card-link text-warning"
                       >
-                        {" "}
-                        <i className="fa fa-edit" /> Edit
+                        Details <i className="fa fa-angle-right" />
                       </Link>
-        
-                      <button
-                        className="btn btn-danger bt-sm card-link"
-                        onClick={() => this.delete(book.book_id)}
-                      >
-                        {" "}
-                        <i className="fa fa-trash" />
-                      </button>
+                      {Auth.ifAdmin() === "true" ? (
+                        <div className="float-right">
+                          <Link
+                            to={`book/edit/${book.book_id}`}
+                            className="btn btn-info card-link"
+                          >
+                            {" "}
+                            <i className="fa fa-edit" /> Edit
+                          </Link>
+
+                          <button
+                            className="btn btn-danger bt-sm card-link"
+                            onClick={() => this.delete(book.book_id)}
+                          >
+                            {" "}
+                            <i className="fa fa-trash" />
+                          </button>
+                        </div>
+                      ) : null}
                     </div>
-                  ) : null}
+                  </div>
                 </div>
               </div>
-            </div>
+            ))}
           </div>
-          ))}
         </div>
-      </div>
-    );
-  }
+      );
+    }
   }
 }
 

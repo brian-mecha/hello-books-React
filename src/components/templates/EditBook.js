@@ -1,7 +1,8 @@
 import React from "react";
+import PropTypes from "prop-types";
+import swal from "sweetalert";
 import Menus from "../Menus";
 import { getSingleBookData, editBook } from "../../utils/api";
-import swal from 'sweetalert';
 
 export default class EditBook extends React.Component {
   constructor() {
@@ -12,6 +13,11 @@ export default class EditBook extends React.Component {
       description: "",
       author: ""
     };
+  }
+
+  componentDidMount() {
+    const bookID = this.props.match.params.id;
+    this.getOneBook(bookID);
   }
 
   // gets the book to be edited from the API and sets to state book
@@ -25,11 +31,6 @@ export default class EditBook extends React.Component {
     });
   }
 
-  componentDidMount() {
-    const bookID = this.props.match.params.id;
-    this.getOneBook(bookID);
-  }
-
   // handles amy change in any of the input fields
   handleChange = name => e => {
     this.setState({ [name]: e.target.value });
@@ -38,14 +39,13 @@ export default class EditBook extends React.Component {
 
   // Updates the book in the API
   update = () => {
-    
     editBook(this.state, this.props.match.params.id)
       .then(rep => {
         if (rep.status === "success") {
           this.setState({ error: false, message: rep.data.message });
-          swal(rep.data.message)
+          swal(rep.data.message);
           // this.props.history.push("/book/edit/" + this.props.match.params.id)
-          this.props.history.push("/")
+          this.props.history.push("/");
         } else {
           this.setState({ error: true, message: rep.data.message });
         }
@@ -58,7 +58,7 @@ export default class EditBook extends React.Component {
   // Renders the form to edit the book
   render() {
     // const { book } = this.state;
-    const id = this.props.match.params.id;
+    const { id } = this.props.match.params;
 
     return (
       <div>
@@ -71,17 +71,17 @@ export default class EditBook extends React.Component {
           <hr />
           <br />
           {this.state.message && (
-          <div
-            className={
-              this.state.error
-                ? "alert alert-danger alert-dismissible fade show"
-                : "alert alert-success alert-dismissible fade show"
-            }
-            role="alert"
-          >
-            {this.state.message}
-          </div>
-        )}
+            <div
+              className={
+                this.state.error ?
+                  "alert alert-danger alert-dismissible fade show" :
+                  "alert alert-success alert-dismissible fade show"
+              }
+              role="alert"
+            >
+              {this.state.message}
+            </div>
+          )}
 
           <div className="card">
             <div className="card-body">
@@ -146,3 +146,8 @@ export default class EditBook extends React.Component {
     );
   }
 }
+
+EditBook.propTypes = {
+  match: PropTypes.object,
+  history: PropTypes.object
+};
