@@ -71,16 +71,22 @@ class Menus extends React.Component {
               </NavItem>
               {Auth.loggedIn ? (
                 <NavItem>
-                  <NavLink to="/profile/" className="nav-link">
+                  {/* <NavLink to="/profile/" className="nav-link">
                     Profile
-                  </NavLink>
+                  </NavLink> */}
+                  <a href="/profile/" className="nav-link">
+                    Profile
+                  </a>
                 </NavItem>
               ) : null}
               {Auth.loggedIn ? (
                 <NavItem>
-                  <NavLink to="/history/" className="nav-link">
+                  {/* <NavLink to="/history/" className="nav-link">
                     History
-                  </NavLink>
+                  </NavLink> */}
+                  <a href="/history/" className="nav-link">
+                    History
+                  </a>
                 </NavItem>
               ) : null}
 

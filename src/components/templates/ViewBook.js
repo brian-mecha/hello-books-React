@@ -38,7 +38,7 @@ export default class ViewBook extends React.Component {
     this.setState({ isBorrowing: true });
     borrowBook(id)
       .then(rep => {
-        this.props.history.push("/profile");
+        this.props.history.replace("/profile");
       })
       .catch(err => {
         this.setState({ isBorrowing: false, error: true, message: err.message });

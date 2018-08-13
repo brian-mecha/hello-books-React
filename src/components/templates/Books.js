@@ -113,9 +113,9 @@ class Books extends React.Component {
           {this.state.message && (
             <div
               className={
-                this.state.error ?
-                  "alert alert-danger alert-dismissible fade show" :
-                  "alert alert-success alert-dismissible fade show"
+                this.state.error
+                  ? "alert alert-danger alert-dismissible fade show"
+                  : "alert alert-success alert-dismissible fade show"
               }
               role="alert"
             >
@@ -143,21 +143,21 @@ class Books extends React.Component {
                       <p className="card-text">
                         {book.description.substr(0, 120)}
                       </p>
-                      <Link
-                        to={`book/view/${book.book_id}`}
+                      <a
+                        href={`book/view/${book.book_id}`}
                         className="card-link text-warning"
                       >
                         Details <i className="fa fa-angle-right" />
-                      </Link>
+                      </a>
                       {Auth.ifAdmin() === "true" ? (
                         <div className="float-right">
-                          <Link
-                            to={`book/edit/${book.book_id}`}
+                          <a
+                            href={`book/edit/${book.book_id}`}
                             className="btn btn-info card-link"
                           >
                             {" "}
                             <i className="fa fa-edit" /> Edit
-                          </Link>
+                          </a>
 
                           <button
                             className="btn btn-danger bt-sm card-link"

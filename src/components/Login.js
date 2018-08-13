@@ -31,6 +31,7 @@ export default class Login extends React.Component {
     });
   }
 
+  // Authenticates and logs in the user via the API
   handleFormSubmit(e) {
     this.setState({ isLoading: true });
     e.preventDefault();
