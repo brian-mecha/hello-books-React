@@ -38,12 +38,10 @@ export default class ViewBook extends React.Component {
     this.setState({ isBorrowing: true });
     borrowBook(id)
       .then(rep => {
-        // this.setState({ isBorrowing: true });
         this.props.history.push("/profile");
       })
       .catch(err => {
-        this.setState({ isBorrowing: false });
-        this.setState({ error: true, message: err.message });
+        this.setState({ isBorrowing: false, error: true, message: err.message });
       });
   };
 
@@ -96,12 +94,11 @@ export default class ViewBook extends React.Component {
 
                   {book.availability && Auth.loggedIn ? (
                     <button
-                      // to={"/users/book/" + book.book_id}
                       className="btn btn-warning card-link"
                       disabled={isBorrowing}
                       onClick={() => this.borrow(book.book_id)}
                     >
-                      Borrow book <i className="fa fa-angle-right" />
+                      Borrow book <i className="fa fa-angle-right fa-" />
                     </button>
                   ) : null}
                 </div>

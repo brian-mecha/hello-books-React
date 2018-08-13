@@ -9,7 +9,10 @@ export default class Profile extends React.Component {
   // Initializes an empty state unreturned
   constructor() {
     super();
-    this.state = { unreturned: [] };
+    this.state = {
+      unreturned: [],
+      isReturning: false
+    };
   }
 
   componentDidMount() {
@@ -25,6 +28,7 @@ export default class Profile extends React.Component {
 
   // Returns a book borrowed by the User
   return = id => {
+    this.setState({ isReturning: true });
     returnBook(id)
       .then(rep => {
         this.setState({ error: false, message: rep.message });
@@ -38,7 +42,7 @@ export default class Profile extends React.Component {
 
   // Renders all books unreturned by user
   render() {
-    const { unreturned } = this.state;
+    const { unreturned, isReturning } = this.state;
     if (!unreturned) {
       return null;
     }
@@ -62,7 +66,10 @@ export default class Profile extends React.Component {
 
             <div className="card text-center">
               <div className="card-body">
-                <h5 className="card-title">Yaay🎊🕺🏻! <br/>You do not have any unreturned Books</h5>
+                <h5 className="card-title">
+                  Yaay🎊🕺🏻! <br />
+                  You do not have any unreturned Books
+                </h5>
               </div>
             </div>
           </div>
@@ -76,7 +83,7 @@ export default class Profile extends React.Component {
             <div className="col-lg-12 text-left">
               <div className="btn-toolbar float-right">
                 <Link to="/history" className="btn btn-warning card-link">
-                Borrowing History <i className="fa fa-angle-right" />
+                  Borrowing History <i className="fa fa-angle-right" />
                 </Link>
               </div>
 
@@ -112,9 +119,10 @@ export default class Profile extends React.Component {
                             <td>
                               <button
                                 className="btn btn-warning card-link"
+                                disabled={isReturning}
                                 onClick={() => this.return(data.book_id)}
                               >
-                              Return book
+                                Return book
                               </button>
                             </td>
                           </tr>

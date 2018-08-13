@@ -21,7 +21,7 @@ export default class Login extends React.Component {
 
   componentWillMount() {
     if (this.Auth.loggedIn()) {
-      this.props.history.replace("/");
+      this.props.history.push("/");
     }
   }
 
@@ -38,7 +38,7 @@ export default class Login extends React.Component {
     this.Auth.login(this.state.email, this.state.password)
       .then(res => {
         swal(res.message);
-        this.props.history.replace("/");
+        this.props.history.push("/");
       })
       .catch(err => {
         this.setState({ isLoading: false });
