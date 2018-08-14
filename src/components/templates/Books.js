@@ -21,7 +21,8 @@ class Books extends React.Component {
     super(props);
     this.state = {
       books: [],
-      term: ""
+      term: "",
+      isDeleting: false
     };
 
     // Initializes the search functionality
@@ -46,20 +47,21 @@ class Books extends React.Component {
 
   // Deletes the selected book
   delete = id => {
+    this.setState({ isDeleting: true });
     deleteBook(id)
       .then(rep => {
-        this.setState({ error: false, message: rep.message });
+        this.setState({ error: false, message: rep.message, isDeleting: false });
         swal(rep.message);
         this.getAllBooks();
       })
       .catch(err => {
-        this.setState({ error: true, message: err.message });
+        this.setState({ error: true, message: err.message, isDeleting: false });
       });
   };
 
   // Renders all the books from the API
   render() {
-    const { books, term } = this.state;
+    const { books, term, isDeleting } = this.state;
 
     if (!books) {
       return null;
@@ -72,9 +74,9 @@ class Books extends React.Component {
             <div className="block-header">
               {Auth.checkIfAdmin === true ? (
                 <div className="btn-toolbar float-right">
-                  <Link to="book/add" className="btn btn-warning card-link">
+                  <a href="book/add" className="btn btn-warning card-link">
                     <i className="fa fa-plus" /> Add Book
-                  </Link>
+                  </a>
                 </div>
               ) : null}
 
@@ -161,6 +163,7 @@ class Books extends React.Component {
 
                           <button
                             className="btn btn-danger bt-sm card-link"
+                            disabled={isDeleting}
                             onClick={() => this.delete(book.book_id)}
                           >
                             {" "}

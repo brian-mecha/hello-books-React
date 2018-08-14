@@ -10,9 +10,7 @@ axios.defaults.headers.post["Content-Type"] = "application/json";
 
 // Request header for all requests to the API
 const RequestHeader = {
-  // 'Content-Type': 'application/json',
   Accept: "application/json"
-  // Authorization: 'Bearer ' + localStorage.getItem('id_token')
 };
 
 // Gets all books from the API

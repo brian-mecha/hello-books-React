@@ -3,15 +3,16 @@ import { shallow, mount } from "enzyme";
 import sinon from "sinon";
 import moxios from "moxios";
 import { BrowserRouter } from "react-router-dom";
-import Books from "../src/components/templates/Books";
-import Header from "../src/components/Header";
-import AddBook from "../src/components/templates/AddBook";
-import EditBook from "../src/components/templates/EditBook";
-import Navigation from "../src/components/Navigation";
-import Home from "../src/components/Home";
-import Profile from "../src/components/templates/Profile";
-import BorrowingHistory from "../src/components/BorrowingHistory";
-import ViewBook from "../src/components/templates/ViewBook";
+import Books from "../components/templates/Books";
+import Header from "../components/Header";
+import AddBook from "../components/templates/AddBook";
+import EditBook from "../components/templates/EditBook";
+import Navigation from "../components/Navigation";
+import Home from "../components/Home";
+import Profile from "../components/templates/Profile";
+import BorrowingHistory from "../components/BorrowingHistory";
+import ViewBook from "../components/templates/ViewBook";
+import Landing from '../components/Landing';
 
 describe("Books Component", () => {
   // Tests whether the Navbar is rendered
@@ -28,6 +29,15 @@ describe("Books Component", () => {
     expect(
       shallow(<Header />)
         .find(".header")
+        .exists()
+    ).toBe(true);
+  });
+
+  // Tests whether the Landing page is rendered
+  it("should render the Landing page", () => {
+    expect(
+      shallow(<Landing />)
+        .find(".masthead")
         .exists()
     ).toBe(true);
   });

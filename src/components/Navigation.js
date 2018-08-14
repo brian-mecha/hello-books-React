@@ -1,7 +1,5 @@
 import React from "react";
-import {
-  Switch, BrowserRouter as Router, Route
-} from "react-router-dom";
+import { Switch, BrowserRouter as Router, Route } from "react-router-dom";
 import Login from "./Login";
 import Home from "./Home";
 import BorrowingHistory from "./BorrowingHistory";
@@ -12,6 +10,7 @@ import EditBook from "./templates/EditBook";
 import ViewBook from "./templates/ViewBook";
 import { PrivateRoute } from "../utils/auth";
 import PageNotFound from "./PageNotFound";
+import Landing from "./Landing";
 
 class Navigation extends React.Component {
   render() {
@@ -20,7 +19,8 @@ class Navigation extends React.Component {
       <div id="nav">
         <Router>
           <Switch>
-            <Route exact path="/" component={Home} />
+            <Route exact path="/" component={Landing} />
+            <Route exact path="/books" component={Home} />
             <PrivateRoute path="/profile" component={Profile} />
             <Route path="/login" component={Login} />
             <PrivateRoute path="/history" component={BorrowingHistory} />

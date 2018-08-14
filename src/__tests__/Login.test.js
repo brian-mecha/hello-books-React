@@ -3,7 +3,7 @@ import { shallow, mount } from "enzyme";
 import moxios from 'moxios';
 import sinon from 'sinon';
 import { BrowserRouter } from "react-router-dom";
-import Login from "../src/components/Login";
+import Login from "../components/Login";
 
 // describe what we are testing
 describe("Login Component", () => {

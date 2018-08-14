@@ -9,7 +9,6 @@ class Home extends React.Component {
     return (
       <div id="home">
         <Menus/>
-        <Header/>
         <Books/>
       </div>
     );

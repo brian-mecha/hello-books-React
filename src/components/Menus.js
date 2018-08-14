@@ -11,7 +11,7 @@ import {
 import { NavLink, withRouter } from "react-router-dom";
 import { LogoutUser } from "../utils/api";
 import { Auth } from "../utils/auth";
-import withAuth from './withAuth';
+import withAuth from "./withAuth";
 
 class Menus extends React.Component {
   constructor(props) {
@@ -65,15 +65,17 @@ class Menus extends React.Component {
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
               <NavItem>
-                <NavLink to="/" className="nav-link">
+                <a href="/" className="nav-link">
                   Home
-                </NavLink>
+                </a>
+              </NavItem>
+              <NavItem>
+                <a href="/books" className="nav-link">
+                  Books
+                </a>
               </NavItem>
               {Auth.loggedIn ? (
                 <NavItem>
-                  {/* <NavLink to="/profile/" className="nav-link">
-                    Profile
-                  </NavLink> */}
                   <a href="/profile/" className="nav-link">
                     Profile
                   </a>
@@ -81,9 +83,6 @@ class Menus extends React.Component {
               ) : null}
               {Auth.loggedIn ? (
                 <NavItem>
-                  {/* <NavLink to="/history/" className="nav-link">
-                    History
-                  </NavLink> */}
                   <a href="/history/" className="nav-link">
                     History
                   </a>
@@ -93,7 +92,6 @@ class Menus extends React.Component {
               {Auth.loggedIn ? (
                 <NavItem>
                   <button
-                    // to="/logout"
                     onClick={this.handleLogout}
                     className=" btn btn-warning"
                   >

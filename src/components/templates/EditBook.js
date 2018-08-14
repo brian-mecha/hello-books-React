@@ -11,7 +11,8 @@ export default class EditBook extends React.Component {
     this.state = {
       title: "",
       description: "",
-      author: ""
+      author: "",
+      isEditing: false
     };
   }
 
@@ -34,24 +35,23 @@ export default class EditBook extends React.Component {
   // handles amy change in any of the input fields
   handleChange = name => e => {
     this.setState({ [name]: e.target.value });
-    // console.log(this.state)
   };
 
   // Updates the book in the API
   update = () => {
+    this.setState({ isEditing: true });
     editBook(this.state, this.props.match.params.id)
       .then(rep => {
         if (rep.status === "success") {
-          this.setState({ error: false, message: rep.data.message });
+          this.setState({ error: false, message: rep.data.message, isEditing: false });
           swal(rep.data.message);
-          // this.props.history.push("/book/edit/" + this.props.match.params.id)
-          this.props.history.push("/");
+          this.props.history.push("/books");
         } else {
-          this.setState({ error: true, message: rep.data.message });
+          this.setState({ error: true, message: rep.data.message, isEditing: false });
         }
       })
       .catch(err => {
-        // this.setState({ error: true, message: err.data.message });
+        this.setState({ error: true, message: err.data.message, isEditing: false });
       });
   };
 
@@ -59,6 +59,7 @@ export default class EditBook extends React.Component {
   render() {
     // const { book } = this.state;
     const { id } = this.props.match.params;
+    const { isEditing } = this.state;
 
     return (
       <div>
@@ -102,6 +103,7 @@ export default class EditBook extends React.Component {
                       value={this.state.title}
                       onChange={this.handleChange("title")}
                       placeholder={this.state.title}
+                      required
                     />
                   </div>
                 </div>
@@ -117,6 +119,7 @@ export default class EditBook extends React.Component {
                       value={this.state.description}
                       rows="3"
                       placeholder={this.state.description}
+                      required
                     />
                   </div>
                 </div>
@@ -132,10 +135,11 @@ export default class EditBook extends React.Component {
                       onChange={this.handleChange("author")}
                       value={this.state.author}
                       placeholder={this.state.author}
+                      required
                     />
                   </div>
                 </div>
-                <button type="submit" className="btn btn-info mb-2">
+                <button type="submit" className="btn btn-info mb-2" disabled={isEditing}>
                   <i className="fa fa-save" /> Update
                 </button>
               </form>

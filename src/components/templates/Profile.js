@@ -33,7 +33,7 @@ export default class Profile extends React.Component {
       .then(rep => {
         this.setState({ error: false, message: rep.message });
         swal(rep.message);
-        this.props.history.push("/");
+        this.props.history.push("/books");
       })
       .catch(err => {
         this.setState({ error: true, message: err.message });
@@ -54,9 +54,9 @@ export default class Profile extends React.Component {
           <div className="container profile">
             <div className="col-lg-12 text-left">
               <div className="btn-toolbar float-right">
-                <Link to="/history" className="btn btn-warning card-link">
+                <a href="/history" className="btn btn-warning card-link">
                   Borrowing History <i className="fa fa-angle-right" />
-                </Link>
+                </a>
               </div>
 
               <h2 className="mt-5">Un-Returned Books</h2>

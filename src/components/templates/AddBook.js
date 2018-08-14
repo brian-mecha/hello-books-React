@@ -12,7 +12,8 @@ export default class AddBook extends React.Component {
       title: "",
       description: "",
       author: "",
-      error: false
+      error: false,
+      isAdding: false,
     };
   }
 
@@ -26,23 +27,25 @@ export default class AddBook extends React.Component {
   // Creates a new book via the API and redirects back to home page
   add = e => {
     e.preventDefault();
+    this.setState({ isAdding: true });
     addBook(this.state)
       .then(rep => {
         if (rep.status === "success") {
           this.setState({ error: false, message: rep.data.message });
           swal(rep.data.message);
-          this.props.history.push("/");
+          this.props.history.push("/books");
         } else {
-          this.setState({ error: true, message: rep.data.message });
+          this.setState({ error: true, message: rep.data.message, isAdding: false });
         }
       })
       .catch(err => {
-        this.setState({ error: true, message: err.data.message });
+        this.setState({ error: true, message: err.data.message, isAdding: false });
       });
   };
 
   // Renders the form to add a new book
   render() {
+    const { isAdding } = this.state;
     return (
       <div>
         <Menus />
@@ -82,7 +85,7 @@ export default class AddBook extends React.Component {
                       placeholder="Book Title"
                       onChange={this.handleChange}
                       value={this.state.title}
-                      // required
+                      required
                       autoFocus
                     />
                   </div>
@@ -99,8 +102,7 @@ export default class AddBook extends React.Component {
                       placeholder="Book Description"
                       onChange={this.handleChange}
                       value={this.state.description}
-                      // required
-                      autoFocus
+                      required
                     />
                   </div>
                 </div>
@@ -116,12 +118,11 @@ export default class AddBook extends React.Component {
                       placeholder="Book Author"
                       onChange={this.handleChange}
                       value={this.state.author}
-                      // required
-                      autoFocus
+                      required
                     />
                   </div>
                 </div>
-                <button type="submit" className="btn btn-info mb-2">
+                <button type="submit" className="btn btn-info mb-2" disabled={isAdding}>
                   <i className="fa fa-save" /> Save
                 </button>
               </form>

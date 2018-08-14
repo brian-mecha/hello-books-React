@@ -3,7 +3,7 @@ import { shallow, mount } from "enzyme";
 import sinon from "sinon";
 import moxios from "moxios";
 import { BrowserRouter } from "react-router-dom";
-import Register from "../src/components/Register";
+import Register from "../components/Register";
 
 // describe what we are testing
 describe("Regsiter Component", () => {

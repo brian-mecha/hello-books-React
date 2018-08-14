@@ -38,8 +38,9 @@ export default class Login extends React.Component {
 
     this.Auth.login(this.state.email, this.state.password)
       .then(res => {
-        swal(res.message);
+        // swal(res.message);
         this.props.history.push("/");
+        swal(res.message);
       })
       .catch(err => {
         this.setState({ isLoading: false });
