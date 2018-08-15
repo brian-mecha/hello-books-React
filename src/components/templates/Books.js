@@ -115,9 +115,9 @@ class Books extends React.Component {
           {this.state.message && (
             <div
               className={
-                this.state.error
-                  ? "alert alert-danger alert-dismissible fade show"
-                  : "alert alert-success alert-dismissible fade show"
+                this.state.error ?
+                  "alert alert-danger alert-dismissible fade show" :
+                  "alert alert-success alert-dismissible fade show"
               }
               role="alert"
             >
