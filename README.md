@@ -18,14 +18,14 @@
 3. Admin remove a book from the system
 
 ## Install Instructions
- - Pre-requisites: Node v10.4.0
+ - Pre-requisites: `Node v10.4.0`
  - Clone this repository `https://github.com/brian-mecha/hello-books-React.git`
  - Install the apps dependencies by running `npm install`
  - Open a terminal and `cd` into the cloned repository
  - Run `npm start`
 
-## More info
- - API on heroku: [Click here](https://hello-books-cp4.herokuapp.com/)
+## Heroku
+ - Link to heroku: [Click here](https://hello-books-cp4.herokuapp.com/)
 
 ## Project Owner
 Brian Mecha
